@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "P3.h"
 #include "P2.h"
+#include "P1.h"
 
 int main() {
     int chc;
@@ -12,7 +13,9 @@ int main() {
     switch (chc){
         case 1:{
             printf("Cette reponse est en developpement");
-            break;}
+            P1();
+            break;
+        }
 
         case 2:{
             P2();

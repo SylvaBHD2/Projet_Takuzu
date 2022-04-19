@@ -39,7 +39,7 @@ int masquerGrille(int tab[T_4][T_4],int size){
     }
     return tab;
 }
-
+/*
 void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size){
     printf("\n");
     for (int i = 0 ; i < size ; i++){
@@ -143,4 +143,4 @@ void P2(){
     remplirGrille(Tab,T_4);
     afficherGrille(Tab, T_4);
     masquerGrille()
-}
+}*/
