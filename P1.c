@@ -25,40 +25,34 @@ int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
 }
 
 int CoupValide(int ligne,int col,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][T_4],int size) {
-    // retourne 1 si le coup est correct, 0 si valide mais inccorect, et si faux
+    // retourne 1 si le coup est correct, 0 si valide mais inccorect, et si faux -1
     if (Tab[ligne][col] == essai)
         return 1;
     else {
         // algo de décision
-        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(Tab,TabMask,ligne,col,size)==0)){
-            TabMask[ligne][col] = 0;
-            printf(" solution trouvée");
-            afficherGrilleMasquee(Tab,TabMask,size);
+        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(Tab, TabMask, ligne, col, size) >=2)){
+            return 0;
         }
         else {
-            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(Tab,TabMask,ligne,col,size)==2)){
-
-                TabMask[ligne][col] = 1;
-                printf(" solution trouvée");
-                afficherGrilleMasquee(Tab,TabMask,size);
+            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(Tab, TabMask, ligne, col, size) >= 2)){
+                return 0;
             }
         }
         // verif voisin peux y avoir un pb
         if (verifierVoisinLigne(Tab,TabMask,ligne,col)==1){
+
             // modulo pour inverser par rapport aux voisins
-            TabMask[ligne][col]=TabMask[ligne][col+1]%2;
-            printf(" solution trouvée");
-            afficherGrilleMasquee(Tab,TabMask,size);
+            if (essai == Tab[ligne][col+1]%2)
+                return 0;
+            return -1;
         }
         else {
-            if (verifierVoisinCol(Tab, TabMask, ligne, col) == 1) {
-                // modulo pour inverser par rapport aux voisins
-                TabMask[ligne][col] = TabMask[ligne + 1][col] % 2;
-                printf(" solution trouvée");
-                afficherGrilleMasquee(Tab, TabMask, size);
-            }
+            // modulo pour inverser par rapport aux voisins
+            if (essai == Tab[ligne][col+1]%2)
+                return 0;
+            return -1;
         }
-    return(0);
+        return(-1);
     }
 }
 
@@ -86,12 +80,12 @@ int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size){
         printf("\nessai sur %d, %d avec %d ",try[0],try[1],try[2]);
         if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 1)
             TabMask[try[0]][try[1]] = 1;
-        else if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 0) {
+        else if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == -1) {
             nbr_vies--;
-            printf("\nAttention vous venez de perdre une vie");
+            printf("\nAttention vous venez de perdre une vie. Restant : %d",nbr_vies);
         } else {
             revelerIndice(Tab,TabMask,size);
-            printf("\nLe coup est valide, mais ce n'est ap sla réponse, pour vous aider voici un indice :\n");
+            printf("\nLe coup est valide, mais ce n'est pas sla réponse, pour vous aider voici un indice :\n");
         }
     }
 }

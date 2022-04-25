@@ -12,7 +12,7 @@ void masquerGrille(int tab[T_4][T_4],int size);
 void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size);
 int sommeLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col);
 int sommeColonne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col);
-int significatifLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col, int size);
+int nombreSignificatifLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col, int size);
 int nombreSignificatifColonne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col,int size);
 int verifierVoisinLigne(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int col);
 int verifierVoisinCol(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int col);
