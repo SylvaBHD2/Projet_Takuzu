@@ -7,7 +7,7 @@ int main() {
     int chc;
     printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n");
     printf("Veuillez choisir une action :\n");
-    printf("1 - jouer au jeu soi meme \n2 - voir une grille \n3 - resolution auto \n : ");
+    printf("1 - jouer au jeu soi meme \n2 - voir une grille se solutionner automatiquement \n3 - creation d'une grille auto \n : ");
     scanf(" %d", &chc);
 
     switch (chc){
