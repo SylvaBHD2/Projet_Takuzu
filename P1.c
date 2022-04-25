@@ -7,21 +7,21 @@
 #include "P2.h"
 
 int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
-    int col, ligne, chiffre, i=0;
+    int col=-1, ligne=-1, chiffre=-1, i=0;
     while(col<0 || col>3 || ligne>3 || ligne<0 || (chiffre<0 || chiffre>1) || TabMask[ligne][col]==1) {
-        scanf("%d %d %d",  &ligne, &col, &chiffre);
-        printf("scanf passé");
+        scanf(" %d, %d, %d", &ligne, &col, &chiffre);
         if (i>0) {
             printf("\nune variable etait fausse, reessayez \n");
-            scanf("%d %d %d",  &ligne, &col, &chiffre);
         }
         i++;
-    };
+//        printf("scanf passe et i++\n");
+    }
+    printf("sortie boucle while");
     int tab2[3] = {ligne, col, chiffre};
     printf("Le tab2[2] est %d ",tab2[2]);
     tab [0] = tab2[0];
     tab [2] = tab2[2];
-    return tab2;
+   return tab2;
 }
 
 int CoupValide(int ligne,int col,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][T_4],int size) {
@@ -30,13 +30,13 @@ int CoupValide(int ligne,int col,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][
         return 1;
     else {
         // algo de décision
-        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (significatifLigne(Tab,TabMask,ligne,col,size)==0)){
+        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(Tab,TabMask,ligne,col,size)==0)){
             TabMask[ligne][col] = 0;
             printf(" solution trouvée");
             afficherGrilleMasquee(Tab,TabMask,size);
         }
         else {
-            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (significatifLigne(Tab,TabMask,ligne,col,size)==2)){
+            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(Tab,TabMask,ligne,col,size)==2)){
 
                 TabMask[ligne][col] = 1;
                 printf(" solution trouvée");
@@ -83,7 +83,7 @@ int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size){
         // vérifie si le coup est valide
         int try[3];
         enterEssai(Tab, TabMask, try);
-        printf("essai sur %d, %d avec %d ",try[0],try[1],try[2]);
+        printf("\nessai sur %d, %d avec %d ",try[0],try[1],try[2]);
         if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 1)
             TabMask[try[0]][try[1]] = 1;
         else if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 0) {

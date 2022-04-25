@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "P2.h"
+#include "P1.h"
 #include <time.h>
 #define T_4 4
 
@@ -60,23 +61,23 @@ void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size){
 // sert a la résolution auto
 int sommeLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col){
     //calcule la some d'une ligne d'une matrice 4x4 de facon récursive
-    if (col==0 && TabMask[ligne][col]==1)
-        return (Tab[ligne][col]);
-    if (TabMask[ligne][col]==1)
-        return Tab[ligne][col]+sommeLigne(Tab, TabMask, ligne, col - 1);
-    return(Tab[ligne][col] + sommeLigne(Tab, TabMask, ligne, col - 1));
+//    printf("Entrée dans someligne");
+    if (col==0)
+        return (Tab[ligne][col]*TabMask[ligne][col]);
+    else
+        return(Tab[ligne][col]*TabMask[ligne][col]+sommeLigne(Tab, TabMask, ligne, col - 1));
 }
 
 int sommeColonne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col){
+//    printf("Entrée dans somecol");
     //calcule la some d'une ligne d'une matrice 4x4 de facon récursive
-    if (col==0 && TabMask[ligne][col]==1)
-        return (Tab[ligne][col]);
-    if (TabMask[ligne][col]==1)
-        return Tab[ligne][col]+sommeColonne(Tab, TabMask, ligne-1, col);
-    return(Tab[ligne][col] + sommeColonne(Tab, TabMask, ligne-1, col));
+    if (ligne==0)
+        return (Tab[ligne][col]*TabMask[ligne][col]);
+    else
+        return(Tab[ligne][col]*TabMask[ligne][col]+sommeLigne(Tab, TabMask, ligne-1, col));
 }
 
-int significatifLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col, int size){
+int nombreSignificatifLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int col, int size){
     //retourne le nbr de 1  et de 0 découverts dans une ligne
     int nbrUn=0;
     for (int i=0; i<size;i++){
@@ -132,40 +133,71 @@ void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) {
             for (int j = 0; j < size; ++j) {
                 // dès qu'il y a un 0
                 if (TabMask[i][j] != 1) {
+                    int idc=0;
+                    int t = 0;
+//                    printf(" >---------------------------------------< \n");
+//                    afficherGrilleMasquee(Tab,TabMask,size);
                     printf(" >---------------------------------------< \npret pour la prochaine action? \n");
-                    scanf(" ");
-                    printf(" Opération sur la case %d %d :", i, j);
+                    scanf(" %d", &t);
+                    printf(" Opération sur la case %d %d :\n", i, j);
+
                     // attention plusiers changements possibles avec voisin
-                    if ((sommeLigne(TabMask, TabMask, j, j) == 2) && (significatifLigne(Tab, TabMask, i, j,
-                                                                                        size) == 2)) {
-                        TabMask[i][j] = 0;
-                        printf(" solution trouvée");
+                    if ((sommeLigne(TabMask, TabMask, j, size - 1) == 2) && (nombreSignificatifLigne(Tab, TabMask, i, j,
+                                                                                                     size) >= 2)) {
+                        TabMask[i][j] = 1;
+//                        if (CoupValide(i,j,0,Tab,TabMask))
+                        idc++;
+                        printf(" solution 0 trouvée grace à sommeligne");
                         afficherGrilleMasquee(Tab, TabMask, size);
                     } else {
-                        if ((sommeLigne(TabMask, TabMask, j, j) == 0) && (significatifLigne(Tab, TabMask, i,
-                                                                                            j, size) == 0)) {
+                        if ((sommeLigne(TabMask, TabMask, j, size - 1) == 0) &&
+                            (nombreSignificatifLigne(Tab, TabMask, i, j,
+                                                     size) >= 2)) {
 
                             TabMask[i][j] = 1;
-                            printf(" solution trouvée");
+                            idc++;
+                            printf(" solution 1 trouvée grace a sommeligne");
+                            afficherGrilleMasquee(Tab, TabMask, size);
+                        }
+                    }
+                    // essai avc somme des colonnes
+                    if ((sommeColonne(TabMask, TabMask, j, size - 1) == 2) && (nombreSignificatifColonne(Tab, TabMask, i, j,
+                                                                                                     size) >= 2)) {
+                        TabMask[i][j] = 1;
+                        idc++;
+                        printf(" solution 0 trouvee grace a sommecol");
+                        afficherGrilleMasquee(Tab, TabMask, size);
+                    } else {
+                        if ((sommeColonne(TabMask, TabMask, j, size - 1) == 0) &&
+                            (nombreSignificatifColonne(Tab, TabMask, i, j,
+                                                     size) >= 2)) {
+
+                            TabMask[i][j] = 1;
+                            idc++;
+                            printf(" solution 1 trouvée garce a sommecol");
                             afficherGrilleMasquee(Tab, TabMask, size);
                         }
                     }
                     // verif voisin peux y avoir un pb
-                    if (verifierVoisinLigne(Tab, TabMask, i, j) == 1) {
-                        // modulo pour inverser par rapport aux voisins
-                        TabMask[i][j] = TabMask[i][j + 1] % 2;
-                        printf(" solution trouvée");
-                        afficherGrilleMasquee(Tab, TabMask, size);
-                    } else {
-                        if (verifierVoisinCol(Tab, TabMask, i, j) == 1) {
+                    if (idc!=0){
+                        if (verifierVoisinLigne(Tab, TabMask, i, j) == 1) {
                             // modulo pour inverser par rapport aux voisins
-                            TabMask[i][j] = TabMask[i + 1][j] % 2;
-                            printf(" solution trouvée");
+                            TabMask[i][j] = TabMask[i][j + 1] % 2;
+                            printf(" solution trouvée grace a voisin  ligne");
                             afficherGrilleMasquee(Tab, TabMask, size);
                         }
+                        else {
+                            if (verifierVoisinCol(Tab, TabMask, i, j) == 1) {
+                                // modulo pour inverser par rapport aux voisins
+                                TabMask[i][j] = TabMask[i + 1][j] % 2;
+                                printf(" solution trouvée grace a voisin col");
+                                afficherGrilleMasquee(Tab, TabMask, size);
+                            }
+                        }
                     }
+                    //voir si une solutoin a été trouvée
+                    printf("\n SOLUTION : %d \n",idc);
                 }
-
             }
         }
     }
