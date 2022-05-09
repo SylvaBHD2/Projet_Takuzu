@@ -22,8 +22,7 @@ int main() {
             break;}
 
         case 3:{
-            printf("Cette reponse est en developpement");
-//            P3();
+            P3();
             break;
         }
         default : printf("\nCe numero d'exercice n'existe pas. \n");
