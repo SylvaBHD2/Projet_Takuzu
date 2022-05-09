@@ -9,17 +9,18 @@
 int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
     int col=-1, ligne=-1, chiffre=-1, i=0;
     while(col<0 || col>3 || ligne>3 || ligne<0 || (chiffre<0 || chiffre>1) || TabMask[ligne][col]==1) {
-        scanf(" %d, %d, %d", &ligne, &col, &chiffre);
         if (i>0) {
-            printf("\nune variable etait fausse, reessayez \n");
+            printf("\nune variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
         }
+        else
+            printf("\nje rentre dans la boucle\n");
+        scanf(" %d %d %d", &ligne, &col, &chiffre);
+        printf("%d %d %d",ligne, col, chiffre );
         i++;
-//        printf("scanf passe et i++\n");
     }
-    printf("sortie boucle while");
     int tab2[3] = {ligne, col, chiffre};
-    printf("Le tab2[2] est %d ",tab2[2]);
     tab [0] = tab2[0];
+    tab [1] = tab2[1];
     tab [2] = tab2[2];
    return tab2;
 }
@@ -30,11 +31,11 @@ int CoupValide(int ligne,int col,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][
         return 1;
     else {
         // algo de décision
-        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(Tab, TabMask, ligne, col, size) >=2)){
+        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(TabMask, ligne, size) >=2)){
             return 0;
         }
         else {
-            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(Tab, TabMask, ligne, col, size) >= 2)){
+            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(TabMask, ligne, size) >= 2)){
                 return 0;
             }
         }
@@ -56,7 +57,7 @@ int CoupValide(int ligne,int col,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][
     }
 }
 
-int revelerIndice(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size){
+int revelerIndice(int TabMask[T_4][T_4],int size){
     for (int i = 0;i<size;i++)
         for (int j = 0; j < size; ++j) {
             if (TabMask[i][j]==0){
@@ -83,11 +84,16 @@ int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size){
         else if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == -1) {
             nbr_vies--;
             printf("\nAttention vous venez de perdre une vie. Restant : %d",nbr_vies);
+            revelerIndice(TabMask,size);
         } else {
-            revelerIndice(Tab,TabMask,size);
+            revelerIndice(TabMask,size);
             printf("\nLe coup est valide, mais ce n'est pas sla réponse, pour vous aider voici un indice :\n");
         }
     }
+    if (verifFin(TabMask,size)==1)
+        printf("Vous avez fini le jeu, FELICITATIONS");
+    if (nbr_vies==0)
+        printf("MALHEUREUSEMENT, c'est perdu !");
 }
 
 void P1(){
