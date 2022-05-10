@@ -7,6 +7,7 @@
 #include "P1.h"
 #include <time.h>
 #define T_4 4
+#define T_8 8
 
 //fonctions
 int remplirGrille(int Tab[T_4][T_4],int size){
@@ -20,7 +21,31 @@ int remplirGrille(int Tab[T_4][T_4],int size){
     return 0;
 }
 
+int remplirGrille2(int Tab[T_8][T_8],int size){
+    //crée une grille
+//    int Tabsol[T_8][T_8];
+    for (int i = 0 ; i < size ; i++){
+        for (int j = 0; j < size; j++) {
+            Tab[i][j]=0;
+        }
+    }
+    return 0;
+}
+
+
 void afficherGrille(int tab[T_4][T_4], int size){
+    // afficher la grille
+    printf("\n");
+    for (int i = 0 ; i < size ; i++){
+        for (int j = 0; j < size; j++) {
+            printf(" |%d|\t", tab[i][j] );
+        }
+        printf("\n");
+    }
+}
+
+void afficherGrille2(int tab[T_8][T_8], int size){
+    // afficher la grille
     printf("\n");
     for (int i = 0 ; i < size ; i++){
         for (int j = 0; j < size; j++) {
@@ -45,7 +70,23 @@ void masquerGrille(int tab[T_4][T_4],int size){
 //    return (int) tab[T_4][T_4];
 }
 
+void masquerGrille2(int tab[T_8][T_8],int size){
+    // retourne un tableau rempli de 0 ou de 1 avec 50/50 de chance
+
+    srand( time( NULL ) );
+    for (int i = 0 ; i < size ; i++){
+        for (int j = 0; j < size; j++) {
+            if (rand()%2)
+                tab[i][j]=0;
+            else
+                tab[i][j]=1;
+        }
+    }
+//    return (int) tab[T_8][T_8];
+}
+
 void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size){
+    // Si la grille du masque en coordonnées (i,j) =  1 alors la grille principale est masquée sur ces coordonnées
     printf("\n");
     for (int i = 0 ; i < size ; i++){
         for (int j = 0; j < size; j++) {
@@ -58,8 +99,29 @@ void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size){
     }
 }
 
+void afficherGrilleMasquee2(int Tab[T_8][T_8],int TabMas[T_8][T_8], int size){
+    // Si la grille du masque en coordonnées (i,j) =  1 alors la grille principale est masquée sur ces coordonnées
+    printf("\n");
+    for (int i = 0 ; i < size ; i++){
+        for (int j = 0; j < size; j++) {
+            if (TabMas[i][j]==1)
+                printf(" |%d|\t", Tab[i][j] );
+            else
+                printf("  \t");
+        }
+        printf("\n");
+    }
+}
 // sert a la résolution auto
 int sommeLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int size){
+    int somme=0;
+    for (int i=0; i<size;i++){
+        somme+=TabMask[ligne][i]*Tab[ligne][i];
+    }
+    return somme;
+}
+
+int sommeLigne2(int Tab[T_8][T_8], int TabMask[T_8][T_8], int ligne, int size){
     int somme=0;
     for (int i=0; i<size;i++){
         somme+=TabMask[ligne][i]*Tab[ligne][i];

@@ -105,8 +105,8 @@ void P1(){
     int TabMask[T_4][T_4];
     int nombre_vies = 3;
 //    remplirGrille(Tab,T_4);
-    afficherGrille(Tab, T_4);
-    masquerGrille(TabMask,T_4);
-    afficherGrilleMasquee(Tab,TabMask,T_4);
+    afficherGrille(Tab, T_4);//P2
+    masquerGrille(TabMask,T_4);//P2
+    afficherGrilleMasquee(Tab,TabMask,T_4);//P2
     jouer(Tab,TabMask,T_4);
 }
