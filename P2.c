@@ -454,3 +454,4 @@ void P2(){
     afficherGrilleMasquee(Tab,TabMask,T_4);
     resouGrille(Tab,TabMask,T_4);
 }
+
