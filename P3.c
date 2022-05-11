@@ -93,7 +93,7 @@ void integrerLigne(int **tab, int *ligne, int num, int taille){
 
 void creer_grille(int taille){
     int** tab_valide=(int**) malloc(taille*sizeof(int*));
-    int tab_valide_dur[4][4];
+//    int tab_valide_dur[4][4];
 //    printf(" %d",taille*sizeof(int*));
     int nbrLigne=0;
     for (int i = 0; i < taille*taille; ++i) {
@@ -101,7 +101,7 @@ void creer_grille(int taille){
         transforme_binaire(temp, i, taille);
         if (sommeTab(temp, taille) == 2) {
             for (int j = 0; j < taille; j++) {
-                printf("%d,%d ;",j,nbrLigne);
+//                printf("%d,%d ;",j,nbrLigne);
 //                *(*(tab_valide_dur+nbrLigne)+j) = *(temp+j);
 //                tab_valide_dur[nbrLigne][j] = temp[j];
 //                tab_valide_dur[nbrLigne][j] = *(temp+j);
