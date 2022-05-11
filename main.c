@@ -2,9 +2,12 @@
 #include "P3.h"
 #include "P2.h"
 #include "P1.h"
+#include <stdlib.h>
+#include <time.h>
 
 int main() {
     int chc;
+    srand( time( NULL ) );
     printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n");
     printf("Veuillez choisir une action :\n");
     printf("1 - jouer au jeu soi meme \n2 - voir une grille se solutionner automatiquement \n3 - creation d'une grille auto \n : ");

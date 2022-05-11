@@ -107,10 +107,8 @@ void afficherLignePtr( int* Tab, int size) {
 }
 
 void afficherGrillePtr(int **Tab, int nbrLigne, int nbrCol){
-    printf("\n entree dans la fonction");
     for (int i = 0 ; i < nbrLigne ; i++){
-        afficherLignePtr((int *) (Tab + i), nbrCol);
-        printf("fin de l'affichage");
+        afficherLignePtr(Tab[i], nbrCol);
         printf("\n");
     }
 }

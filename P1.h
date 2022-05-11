@@ -6,7 +6,7 @@
 #define PROJET_TAKUZU_P1_H
 #define T_4 4
 
-int entrerEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4]);
+int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]);
 int CoupValide(int i,int j,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][T_4],int size) ;
 int revelerIndice(int TabMask[T_4][T_4],int size);
 int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size);
