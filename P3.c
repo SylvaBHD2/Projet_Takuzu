@@ -142,7 +142,7 @@ void creer_grille(int taille){
     int **grille = (int**) malloc(taille*sizeof(int*));
     // ajout de l'aléa
     int choix_hasard=random(nbrLigne);
-    printf("le choix hasardeux : %d (nbr de ligne = %d)",choix_hasard,nbrLigne);
+//    printf("le choix hasardeux : %d (nbr de ligne = %d)",choix_hasard,nbrLigne);
     afficherLignePtr(tab_valide[choix_hasard],taille);
 
     printf("Maintenant, la généaration\n");
@@ -150,7 +150,7 @@ void creer_grille(int taille){
     for (int i = 0; i < taille; ++i) {
         // sur les lignes paires, on met de nouvelle lignes si elle ne sont pas déja sur l'echequier
         if (i==0){
-            printf("initialisation\n");
+//            printf("initialisation\n");
             grille[i] = tab_valide[choix_hasard];
 //            integrerLigne(grille,tab_valide[choix_hasard],i,taille);
             afficherLignePtr(tab_valide[choix_hasard],taille);
