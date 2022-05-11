@@ -58,6 +58,22 @@ void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size){
     }
 }
 
+void afficherLignePtr( int* Tab, int size) {
+    printf("\n");
+    for (int j = 0; j < size; j++) {
+        printf(" |%d|\t", *(Tab + j));
+    }
+}
+
+void afficherGrillePtr(int **Tab, int nbrLigne, int nbrCol){
+    printf("\n entree dans la fonction");
+    for (int i = 0 ; i < nbrLigne ; i++){
+        afficherLignePtr((int *) (Tab + i), nbrCol);
+        printf("fin de l'affichage");
+        printf("\n");
+    }
+}
+
 // sert a la résolution auto
 int sommeLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int size){
     int somme=0;
