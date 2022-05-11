@@ -66,33 +66,22 @@ int comparerLignes(int* tab, int* tab2, int taille){
     //vérifie que tab et tab2 soit bien différents
     int test = 1;
     for (int i = 0; i < taille; ++i) {
-//        printf("temoin diff %d _ %d",tab[i],tab2[i]);
         if(tab[i]!=tab2[i]){
             test=0;
         }
-        printf("\n");
     }
-    printf("sortie de la comparaison : %d",test);
     return test;
 }
 
 int verifPres(int** tab, int* temp,int taille,int nbrligne){
     //vérifie que nouvelle ligne soit bien différente et ne soit pas l'inverse d'une des lignes de tab
-    printf("entree dans verifpres");
     for (int i = 0; i < nbrligne; ++i) {
-        printf("\n%d eme boucle,\n ",i);
-        afficherLignePtr(temp,taille);
-        afficherLignePtr(tab[i],taille);
         int res = comparerLignes(temp,tab[i],taille);
-        printf(" \nres est %d",res);
         if(res==1){
             // si une similitude est trouvée on sort
-            printf("la ligne est trouvée");
             return 1;
         }
-        printf("passé la condition if");
     }
-    printf("la ligne n'est pas trouvée existe pas");
     return 0;
 }
 
@@ -102,7 +91,6 @@ int verifierVoisins(int* tab,int taille){
         val2=tab[i-2];
         val1=tab[i-1];
         int alias= val2+val1+tab[i];
-        printf(" ; %d %d %d ==? %d ;",val1,val2,tab[i],alias);
         if (alias==0 ||alias==3)
             return 0;
     }
@@ -113,16 +101,14 @@ void melangerTab(int** grille, int taille){
     //mélange les lignes de la grille pour plus d'aléa
     for (int i = 0; i < random(taille); ++i) {
         int choix_hasard = random(taille),choix_hasard2=random(taille);
-        printf("les choix hasardeux: %d %d ",choix_hasard,choix_hasard2);
         int* temp = grille[choix_hasard];
-        *grille[choix_hasard] = *grille[choix_hasard2];
-        *grille[choix_hasard2] = *temp;
+        grille[choix_hasard] = grille[choix_hasard2];
+        grille[choix_hasard2] = temp;
     }
 }
 
 void creer_grille(int taille){
     int** tab_valide=(int**) malloc(taille*taille*sizeof(int*)); // pas opti
-//    printf(" %d",taille*sizeof(int*));
     int nbrLigne=0;
     for (int i = 0; i < taille*taille; ++i) {
         //nouveau pointeur
@@ -130,66 +116,48 @@ void creer_grille(int taille){
         transforme_binaire(temp, i, taille);
         if ( (sommeTab(temp, taille) == taille/2 ) && (verifierVoisins(temp,taille)==1) ) {
             tab_valide[nbrLigne] = temp;
-//            afficherLignePtr(temp, taille) ;
-//            afficherLignePtr(tab_valide[nbrLigne], taille) ;
             ++nbrLigne;
         }
     }
     afficherGrillePtr(tab_valide, nbrLigne, taille);
-    printf("ci dessus la liste des valides\n");
+    printf("Voici ci-dessus la liste des valides\n");
 
     // création de la grille
     int **grille = (int**) malloc(taille*sizeof(int*));
     // ajout de l'aléa
     int choix_hasard=random(nbrLigne);
-//    printf("le choix hasardeux : %d (nbr de ligne = %d)",choix_hasard,nbrLigne);
-    afficherLignePtr(tab_valide[choix_hasard],taille);
 
-    printf("Maintenant, la généaration\n");
+    printf("Maintenant, la generation:\n");
     // choix des lignes génératrices
     for (int i = 0; i < taille; ++i) {
         // sur les lignes paires, on met de nouvelle lignes si elle ne sont pas déja sur l'echequier
         if (i==0){
-//            printf("initialisation\n");
             grille[i] = tab_valide[choix_hasard];
-//            integrerLigne(grille,tab_valide[choix_hasard],i,taille);
-            afficherLignePtr(tab_valide[choix_hasard],taille);
-            printf(": cette ligne est mtn integree \n");}
+        }
         else {
             if (i%2==0){
-                printf("entree dans les pairs:\n");
                 choix_hasard=random(nbrLigne);
-                printf("\nchoix du hasard: %d,\n", choix_hasard);
                 // si la ligne est déja présente
                 int res = verifPres(grille,tab_valide[choix_hasard],taille,i);
-                printf("%d eme boucle, res est %d\n ",i,res);
                 while (res==1) {
-                    printf("\nchoix du hasard: %d,\n", choix_hasard);
                     choix_hasard = random(nbrLigne);
                     res = verifPres(grille,tab_valide[choix_hasard],taille,i);
-                    printf("%d eme boucle, res est %d\n ",i,res);
                 };
-                printf("passé la pres");
-//                integrerLigne(grille,tab_valide[choix_hasard],i,taille);
                 grille[i] = tab_valide[choix_hasard];
-                printf("ligne intégrer: \n");
-                afficherLignePtr(tab_valide[choix_hasard],taille);
             }
             //sur les lignes impaires, on inverse juste la ligne précédente
             else{
                 int* ligne_inv = (int*) malloc(taille*sizeof(int));
                 inverserLigne(grille[i-1],ligne_inv, taille);
                 grille[i] = ligne_inv;
-                afficherLignePtr(ligne_inv,taille);
-                printf(": cette ligne est mtn integree  \n");}
             }
+        }
     }
-//    afficherGrille(grille,taille);
     printf("Voici la grille :\n");
     afficherGrillePtr(grille,taille,taille);
     //melanger grille
     melangerTab(grille,taille);
-    printf("Voici la grille finale:\n");
+    printf("Et voici la grille finale:\n");
     afficherGrillePtr(grille,taille,taille);
 }
 
