@@ -99,6 +99,22 @@ void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int size){
     }
 }
 
+void afficherLignePtr( int* Tab, int size) {
+    printf("\n");
+    for (int j = 0; j < size; j++) {
+        printf(" |%d|\t", *(Tab + j));
+    }
+}
+
+void afficherGrillePtr(int **Tab, int nbrLigne, int nbrCol){
+    printf("\n entree dans la fonction");
+    for (int i = 0 ; i < nbrLigne ; i++){
+        afficherLignePtr((int *) (Tab + i), nbrCol);
+        printf("fin de l'affichage");
+        printf("\n");
+    }
+}
+
 void afficherGrilleMasquee2(int Tab[T_8][T_8],int TabMas[T_8][T_8], int size){
     // Si la grille du masque en coordonnées (i,j) =  1 alors la grille principale est masquée sur ces coordonnées
     printf("\n");
