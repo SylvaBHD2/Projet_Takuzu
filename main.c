@@ -9,16 +9,17 @@ int main() {
     int chc;
     srand( time( NULL ) );
     int chx;
-    printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n");
+    printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n\n");
     printf("Veuillez choisir une action :\n");
-    printf("1 - jouer au jeu soi meme \n2 - voir une grille se solutionner automatiquement \n3 - creation d'une grille auto \n : ");
+    printf("\t1 - jouer au jeu soi meme \n\t2 - voir une grille se solutionner automatiquement \n\t3 - creation d'une grille auto \n : ");
     scanf(" %d", &chc);
-    printf("1 - resoudre en 4x4 \\n2 - resoudre en 8x8 \\n : \" ");
-    scanf(" %d", &chx);
+    do{
+        printf("\t1 - resoudre en 4x4\n\t2 - resoudre en 8x8 \n : ");
+        scanf(" %d", &chx);
+    }while(chx!=2 && chx!=1);
 
     switch (chc){
         case 1:{
-            printf("Cette reponse est en developpement");
             P1(chx);
             break;
         }

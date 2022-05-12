@@ -14,8 +14,8 @@ int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
         if (i>0) {
             printf("\nune variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
         }
-        else
-            printf("\nje rentre dans la boucle\n");
+//        else
+//            printf("\nje rentre dans la boucle\n");
         scanf(" %d %d %d", &ligne, &col, &chiffre);
         printf("%d %d %d",ligne, col, chiffre );
         i++;
