@@ -16,9 +16,11 @@ int main() {
     do{
         printf("\t1 - resoudre en 4x4\n\t2 - resoudre en 8x8 \n : ");
         scanf(" %d", &chx);
-    }while(chx!=2 && chx!=1);
+//    }while(chx!=2 && chx!=1);
+    }while(chx==0);
 
-    switch (chc){
+
+switch (chc){
         case 1:{
             P1(chx);
             break;
@@ -29,7 +31,7 @@ int main() {
             break;}
 
         case 3:{
-            //P3();
+            P3(chx);
             break;
         }
         default : printf("\nCe numero d'exercice n'existe pas. \n");

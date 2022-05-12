@@ -6,6 +6,7 @@
 #include <stdio.h>
 #define T_4 4
 #include "P2.h"
+#include "P3.h"
 #define T_8 8
 
 int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
@@ -44,10 +45,11 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
     return tab2;
 }
 
-int CoupValide(int ligne,int col,int essai, int TabMask[T_4][T_4] ,int Tab[T_4][T_4],int size) {
+int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4][T_4],int size) {
     // retourne 1 si le coup est correct, 0 si valide mais inccorect, et si faux -1
-    if (Tab[ligne][col] == essai)
-        return 1;
+    if (Tab[ligne][col] == essai){
+        printf(" direct validé : essai = %d, %d",essai,Tab[ligne][col]);
+        return 1;}
     else {
         // algo de décision
         if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(TabMask, ligne, size) >=2)){

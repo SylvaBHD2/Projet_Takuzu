@@ -22,27 +22,27 @@ int puissance(int chiffre,int exposant){
     return res;
 }
 
-void afficher_bin(int* tab,int size){
+void afficher_bin(int* tab,int taille){
 
-    for (int i = 0; i < size; ++i) {
-        printf("%d",*(tab+(size-1-i)));
+    for (int i = 0; i < taille; ++i) {
+        printf("%d",*(tab+(taille - 1 - i)));
     }
     printf("\n");
 }
 
-void transforme_binaire(int * tab, int numero, int size){
-    int *code_binaire = (int*) malloc(size*sizeof(int));
-    for (int i = 0; i < size; ++i) {
+void transforme_binaire(int * tab, int numero, int taille){
+    int *code_binaire = (int*) malloc(taille * sizeof(int));
+    for (int i = 0; i < taille; ++i) {
         *(code_binaire+i) = numero%2;
-        numero=numero/2;
+        numero = numero/2;
         *(tab+i) = *(code_binaire+i);
     }
 }
 
 // sert a la construction auto
-int sommeTab(int Tab[T_4],int size){
+int sommeTab(int Tab[T_4],int taille){
     int somme=0;
-    for (int i=0; i<size;i++){
+    for (int i=0; i < taille; i++){
         somme+=Tab[i];
     }
     return somme;
@@ -108,12 +108,14 @@ void melangerTab(int** grille, int taille){
 }
 
 void creer_grille(int taille){
-    int** tab_valide=(int**) malloc(taille*taille*sizeof(int*)); // pas opti
+    int** tab_valide=(int**) malloc(taille*taille/2*sizeof(int*)); // pas opti
     int nbrLigne=0;
     for (int i = 0; i < taille*taille; ++i) {
         //nouveau pointeur
+        printf("temoinj %d",i);
         int* temp=(int* )malloc(sizeof(int)*taille);
         transforme_binaire(temp, i, taille);
+        afficherLignePtr(temp,taille);
         if ( (sommeTab(temp, taille) == taille/2 ) && (verifierVoisins(temp,taille)==1) ) {
             tab_valide[nbrLigne] = temp;
             ++nbrLigne;
@@ -161,8 +163,8 @@ void creer_grille(int taille){
     afficherGrillePtr(grille,taille,taille);
 }
 
-void P3(){
-    int taille;
+void P3(int taille){
+//    int taille;
     printf("choisir taille 4 ou 8 :\n");
     scanf("%d",&taille);
     creer_grille(taille);
