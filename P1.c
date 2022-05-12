@@ -33,8 +33,6 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
         if (i>0) {
             printf("\nune variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
         }
-        else
-            printf("\nje rentre dans la boucle\n");
         scanf(" %d %d %d", &ligne, &col, &chiffre);
         printf("%d %d %d",ligne, col, chiffre );
         i++;
@@ -189,18 +187,19 @@ int jouer2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int size){
 
 void P1(int choix){
     if (choix == 1){
-    int Tab[T_4][T_4] = {{0,0,1,1},
-                        {1,1,0,0},
-                        {0,1,1,0},
-                        {1,0,0,1},
-                        };
-    int TabMask[T_4][T_4];
-    int nombre_vies = 3;
-//    remplirGrille(Tab,T_4);
-    afficherGrille(Tab, T_4);//P2
-    masquerGrille(TabMask,T_4);//P2
-    afficherGrilleMasquee(Tab,TabMask,T_4);//P2
-    jouer(Tab,TabMask,T_4);}
+        int Tab[T_4][T_4] = {{0,0,1,1},
+                            {1,1,0,0},
+                            {0,1,1,0},
+                            {1,0,0,1},
+                            };
+        int TabMask[T_4][T_4];
+        int nombre_vies = 3;
+    //    remplirGrille(Tab,T_4);
+//        afficherGrille(Tab, T_4);//P2
+        masquerGrille(TabMask,T_4);//P2
+//        afficherGrilleMasquee(Tab,TabMask,T_4);//P2
+        jouer(Tab,TabMask,T_4);
+    }
     else{
 
         int Tab[T_8][T_8] = {{1,0,1,1,0,1,0,0},

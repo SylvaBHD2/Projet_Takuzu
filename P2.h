@@ -20,7 +20,7 @@ int nombreSignificatifColonne(int TabMask[T_4][T_4], int col,int size);
 int nombreSignificatifLigne(int TabMask[T_4][T_4], int ligne, int size);
 int verifierVoisinLigne(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int col);
 int verifierVoisinCol(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int col);
-int verifFin(int TabMask[T_4][T_4],int size);
+int verifFin(int TabMask[T_4][T_4],int taille);
 void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) ;
 int comparerMatrice(int Tab[T_4][T_4],int Tab2[T_4][T_4],int ligne, int col);
 void P2(int choix);
