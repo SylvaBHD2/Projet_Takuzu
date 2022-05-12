@@ -8,7 +8,7 @@
 #include <time.h>
 #define T_4 4
 
-
+/*
 int random(int module){
     srand( time( NULL ) );
     return rand()%module;
@@ -154,3 +154,4 @@ void P3(){
     scanf("%d",&taille);
     creer_grille(T_4);
 }
+*/

@@ -23,7 +23,7 @@ int verifierVoisinCol(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int co
 int verifFin(int TabMask[T_4][T_4],int size);
 void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) ;
 int comparerMatrice(int Tab[T_4][T_4],int Tab2[T_4][T_4],int ligne, int col);
-void P2();
+void P2(int choix);
 
 int remplirGrille2(int Tab[T_8][T_8],int size);
 void afficherGrille2(int tab[T_8][T_8], int size);

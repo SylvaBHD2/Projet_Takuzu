@@ -147,7 +147,7 @@ int sommeLigne2(int Tab[T_8][T_8], int TabMask[T_8][T_8], int ligne, int size){
 
 int sommeColonne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int col, int size){
     int somme=0;
-    for (int i=0; i<size;i++){
+    for (int i=0; i<size;i++){// faire somme - nbsin (represente le nbr de truc qu'on peut voir )
         somme+=TabMask[i][col]*Tab[i][col];
     }
     return somme;
@@ -192,7 +192,7 @@ int nombreSignificatifLigne(int TabMask[T_4][T_4], int ligne,int size){
 }
 
 int nombreSignificatifLigne2(int TabMask[T_8][T_8], int ligne,int size){
-    //retourne le nbr de 1 et de 0 découverts dans une colonne
+    //retourne le nbr de 1 et de 0 découverts dans une ligne
     int nbrUn=0;
     for (int i=0; i<size;i++){
         if (TabMask[ligne][i]!=0)
@@ -288,7 +288,13 @@ void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) {
                             essai = 1;
                             printf(" solution 1 trouvee grace a sommeline");
                         }
-                    }
+
+                   /* else{
+                        if ((sommeLigne(TabMask, TabMask, j, size - 1) == 1)&&(nombreSignificatifLigne(TabMask, i, size) >= 3))
+                            idc++;
+                            essai = 1;
+                            printf(" solution 1 trouvee grace a sommeline");
+                    }*/}
                     // essai avc somme des colonnes
                     if ((sommeColonne(TabMask, TabMask, j, size - 1) == 2) &&
                         (nombreSignificatifColonne(TabMask, j,size) >= 2)) {
@@ -356,28 +362,28 @@ void resouGrille2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int size) {
                     printf(" \n Le tour: smcol %d  nbrsinicol %d\n", sommeColonne2(TabMask, TabMask, j, size - 1),
                            nombreSignificatifColonne2(TabMask, j,size));
                     // attention plusiers changements possibles avec voisin
-                    if ((sommeLigne2(TabMask, TabMask, j, size - 1) == 2) && (nombreSignificatifLigne2(TabMask, i,size) >= 2)) {
+                    if ((sommeLigne2(TabMask, TabMask, j, size - 1) == 4) && (nombreSignificatifLigne2(TabMask, i,size) >= 4)) {
                         essai = 0;
                         idc++;
-                        printf(" solution 0 trouvee grace a sommeligne");
+                        printf(" solution 0 trouve grace a sommeligne");
                     }
                     else{
-                        if ((sommeLigne2(TabMask, TabMask, j, size - 1) == 0)&&(nombreSignificatifLigne2(TabMask, i, size) >= 2)) {
+                        if ((sommeLigne2(TabMask, TabMask, j, size - 1) == 0)&&(nombreSignificatifLigne2(TabMask, i, size) >= 4)) {
                             idc++;
                             essai = 1;
                             printf(" solution 1 trouvee grace a sommeline");
                         }
                     }
                     // essai avc somme des colonnes
-                    if ((sommeColonne2(TabMask, TabMask, j, size - 1) == 2) &&
-                        (nombreSignificatifColonne2(TabMask, j,size) >= 2)) {
+                    if ((sommeColonne2(TabMask, TabMask, j, size - 1) == 4) &&
+                        (nombreSignificatifColonne2(TabMask, j,size) >= 4)) {
                         essai = 0;
                         idc++;
                         printf(" solution 0 trouvee grace à sommeligne");
                     }
                     else {
                         if ((sommeColonne2(TabMask, TabMask, j, size - 1) == 0) &&
-                            (nombreSignificatifColonne2(TabMask, j, size) >= 2)) {
+                            (nombreSignificatifColonne2(TabMask, j, size) >= 4)) {
                             idc++;
                             essai = 1;
                             printf(" solution 1 trouvee grace à sommecol");
@@ -440,8 +446,8 @@ int comparerMatrice2(int Tab[T_8][T_8],int Tab2[T_8][T_8],int ligne, int col){
 }
 
 //fonction principale
-void P2(){
-
+void P2(int choix){
+    if (choix == 1){
     int Tab[T_4][T_4] = {{0,0,1,1},
                          {1,1,0,0},
                          {0,1,1,0},
@@ -453,5 +459,21 @@ void P2(){
     afficherGrille(TabMask,T_4);
     afficherGrilleMasquee(Tab,TabMask,T_4);
     resouGrille(Tab,TabMask,T_4);
-}
-
+    }
+    else{
+    int Tab[T_8][T_8] = {{1,0,1,1,0,1,0,0},
+                         {1,0,1,0,1,0,0,1},
+                         {0,1,0,1,1,0,1,0},
+                         {0,1,0,1,0,1,1,0},
+                         {1,0,1,0,0,1,0,1},
+                         {0,1,0,0,1,0,1,1},
+                         {0,0,1,1,0,1,1,0},
+                         {1,1,0,0,1,0,0,1}
+    };
+    int TabMask[T_8][T_8];
+    afficherGrille2(Tab, T_8);
+    masquerGrille2(TabMask,T_8);
+    afficherGrille2(TabMask,T_8);
+    afficherGrilleMasquee2(Tab,TabMask,T_8);
+    resouGrille2(Tab,TabMask,T_8);
+}}

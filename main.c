@@ -21,11 +21,11 @@ int main() {
         }
 
         case 2:{
-            P2();
+            P2(chx);
             break;}
 
         case 3:{
-            P3();
+            //P3();
             break;
         }
         default : printf("\nCe numero d'exercice n'existe pas. \n");
