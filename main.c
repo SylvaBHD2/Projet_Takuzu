@@ -10,7 +10,7 @@ int main() {
     srand( time( NULL ) );
     int chx;
     printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n\n");
-    printf("Veuillez choisir une action :\n");
+    printf("Pour commnencer, choisissez une action :\n");
     printf("\t1 - jouer au jeu soi meme \n\t2 - voir une grille se solutionner automatiquement \n\t3 - creation d'une grille auto \n : ");
     scanf(" %d", &chc);
     do{
@@ -34,7 +34,7 @@ switch (chc){
             P3(chx);
             break;
         }
-        default : printf("\nCe numero d'exercice n'existe pas. \n");
+        default : printf("\nCe numero n'existe pas. \n");
     }
     return 0;
 }

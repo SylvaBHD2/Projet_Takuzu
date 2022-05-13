@@ -18,7 +18,7 @@ int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
 //        else
 //            printf("\nje rentre dans la boucle\n");
         scanf(" %d %d %d", &ligne, &col, &chiffre);
-        printf("%d %d %d",ligne, col, chiffre );
+//        printf(" verif??? %d %d %d",ligne, col, chiffre );
         i++;
     }
     int tab2[3] = {ligne, col, chiffre};
@@ -32,7 +32,7 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
     int col=-1, ligne=-1, chiffre=-1, i=0;
     while(col<0 || col>7 || ligne>7 || ligne<0 || (chiffre<0 || chiffre>1) || TabMask[ligne][col]==1) {
         if (i>0) {
-            printf("\nune variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
+            printf("\nUne variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
         }
         scanf(" %d %d %d", &ligne, &col, &chiffre);
         printf("%d %d %d",ligne, col, chiffre );
@@ -45,18 +45,19 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
     return tab2;
 }
 
-int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4][T_4],int size) {
+int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4][T_4],int taille) {
     // retourne 1 si le coup est correct, 0 si valide mais inccorect, et si faux -1
     if (Tab[ligne][col] == essai){
         printf(" direct validé : essai = %d, %d",essai,Tab[ligne][col]);
         return 1;}
     else {
+        printf(" délibération  : essai = %d, %d, ligne = %d et col = %d",essai,Tab[ligne][col],ligne,col);
         // algo de décision
-        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(TabMask, ligne, size) >=2)){
+        if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(TabMask, ligne, taille) >= 2)){
             return 0;
         }
         else {
-            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(TabMask, ligne, size) >= 2)){
+            if ((sommeLigne(Tab, TabMask, col, col) == 0) && (nombreSignificatifLigne(TabMask, ligne, taille) >= 2)){
                 return 0;
             }
         }
@@ -65,6 +66,7 @@ int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4]
 
             // modulo pour inverser par rapport aux voisins
             if (essai == Tab[ligne][col+1]%2)
+                printf("Regardez les voisins ...");
                 return 0;
             return -1;
         }
@@ -178,11 +180,11 @@ int jouer2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int size){
             revelerIndice2(TabMask,size);
         } else {
             revelerIndice2(TabMask,size);
-            printf("\nLe coup est valide, mais ce n'est pas sla réponse, pour vous aider voici un indice :\n");
+            printf("\nLe coup est valide, mais ce n'est pas la réponse, pour vous aider voici un indice :\n");
         }
     }
     if (verifFin2(TabMask,size)==1)
-        printf("Vous avez fini le jeu, FELICITATIONS");
+        printf("Vous avez fini le jeu, FELICITATIONS !");
     if (nbr_vies==0)
         printf("MALHEUREUSEMENT, c'est perdu !");
 }
