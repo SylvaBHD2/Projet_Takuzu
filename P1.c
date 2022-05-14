@@ -4,21 +4,24 @@
 
 #include "P1.h"
 #include <stdio.h>
+#include<stdlib.h>
 #define T_4 4
 #include "P2.h"
 #include "P3.h"
 #define T_8 8
 
+int* creerTab(int taille){
+    int* tab=(int*)malloc(sizeof (int)*taille);
+    return tab;
+}
+
 int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
     int col=-1, ligne=-1, chiffre=-1, i=0;
     while(col<0 || col>3 || ligne>3 || ligne<0 || (chiffre<0 || chiffre>1) || TabMask[ligne][col]==1) {
         if (i>0) {
-            printf("\nune variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
+            printf("\nUne variable etait fausse, impossible. Indiquez:  ligne , colonne, 0/1 : \n :");
         }
-//        else
-//            printf("\nje rentre dans la boucle\n");
         scanf(" %d %d %d", &ligne, &col, &chiffre);
-//        printf(" verif??? %d %d %d",ligne, col, chiffre );
         i++;
     }
     int tab2[3] = {ligne, col, chiffre};
@@ -32,7 +35,7 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
     int col=-1, ligne=-1, chiffre=-1, i=0;
     while(col<0 || col>7 || ligne>7 || ligne<0 || (chiffre<0 || chiffre>1) || TabMask[ligne][col]==1) {
         if (i>0) {
-            printf("\nUne variable etait fausse, reessayez. indiquez:  ligne , colonne, 0/1 : ");
+            printf("\nUne variable etait impossible, reessayez. Indiquez:  ligne , colonne, 0/1 : ");
         }
         scanf(" %d %d %d", &ligne, &col, &chiffre);
         printf("%d %d %d",ligne, col, chiffre );
@@ -48,10 +51,10 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
 int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4][T_4],int taille) {
     // retourne 1 si le coup est correct, 0 si valide mais inccorect, et si faux -1
     if (Tab[ligne][col] == essai){
-        printf(" direct validé : essai = %d, %d",essai,Tab[ligne][col]);
+        printf(" Validation : essai = %d, %d",essai,Tab[ligne][col]);
         return 1;}
     else {
-        printf(" délibération  : essai = %d, %d, ligne = %d et col = %d",essai,Tab[ligne][col],ligne,col);
+        printf(" deliberation  : essai = %d, %d, ligne = %d et col = %d",essai,Tab[ligne][col],ligne,col);
         // algo de décision
         if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(TabMask, ligne, taille) >= 2)){
             return 0;
@@ -139,22 +142,25 @@ int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) {
     // affichage de la première grille
     int nbr_vies = 3;
     while (verifFin(TabMask, size) == 0 && nbr_vies != 0) {
+        printf("<----------------Debut du Tour------------------>");
         afficherGrilleMasquee(Tab, TabMask, size);
-        printf(" \n Que voulez vous faire? indiquez:  ligne , colonne, 0/1 :");
+        printf(" \n Que voulez vous faire? Indiquez:  ligne , colonne, 0/1 :\n :");
         // vérifie si le coup est valide
         int try[3];
         enterEssai(Tab, TabMask, try);
-        printf("\nessai sur %d, %d avec %d ", try[0], try[1], try[2]);
-        if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 1)
+//        printf("\nEssai sur: ligne %d , colonne: %d avec la valeur :%d ", try[0], try[1], try[2]);
+        if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 1){
             TabMask[try[0]][try[1]] = 1;
+            printf("BRAVO! c'est la bonne reponse ! ");}
         else if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == -1) {
             nbr_vies--;
             printf("\nAttention vous venez de perdre une vie. Restant : %d", nbr_vies);
             revelerIndice(TabMask, size);
         } else {
             revelerIndice(TabMask, size);
-            printf("\nLe coup est valide, mais ce n'est pas sla réponse, pour vous aider voici un indice :\n");
+            printf("\nLe coup est valide, mais ce n'est pas la réponse, pour vous aider voici un indice :\n");
         }
+        printf("<----------Fin du tour----------->");
     }
     if (verifFin(TabMask, size) == 1)
         printf("Vous avez fini le jeu, FELICITATIONS");

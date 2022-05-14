@@ -91,11 +91,13 @@ void afficherGrilleMasquee(int Tab[T_4][T_4],int TabMas[T_4][T_4], int taille){
     printf("\n");
     for (int i = 0 ; i < taille ; i++){
         for (int j = 0; j < taille; j++) {
-            if (TabMas[i][j]==1)
-                printf(" |%d|\t", Tab[i][j] );
+            if (TabMas[i][j]==1){
+                printf(" | %d | \t", Tab[i][j] );
+                }
             else
-                printf("  \t");
+                printf("      \t");
         }
+        printf("\n--------------------------------");
         printf("\n");
     }
 }
@@ -130,10 +132,9 @@ void afficherGrilleMasquee2(int Tab[T_8][T_8],int TabMas[T_8][T_8], int taille){
 
 // sert a la résolution auto
 int sommeLigne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int ligne, int taille){
-    int somme=0;
-    for (int i=0; i<taille;i++){
+    int somme = 0;
+    for (int i = 0; i < taille; i++){
         somme += TabMask[ligne][i] * Tab[ligne][i];
-//        printf("Somme += %d  car %d et %d =\n",TabMask[ligne][i] * Tab[ligne][i],TabMask[ligne][i],Tab[ligne][i]);
     }
     return somme;
 }
@@ -156,7 +157,7 @@ int sommeColonne(int Tab[T_4][T_4], int TabMask[T_4][T_4], int col, int taille){
 
 int sommeColonne2(int Tab[T_8][T_8], int TabMask[T_8][T_8], int col, int taille){
     int somme=0;
-    for (int i=0; i<taille;i++){
+    for (int i = 0; i < taille; i++){
         somme+=TabMask[i][col]*Tab[i][col];
     }
     return somme;
@@ -165,7 +166,7 @@ int sommeColonne2(int Tab[T_8][T_8], int TabMask[T_8][T_8], int col, int taille)
 int nombreSignificatifColonne(int TabMask[T_4][T_4], int col, int taille){
     //retourne le nbr de 1  et de 0 découverts dans une ligne
     int nbrUn=0;
-    for (int i=0; i<taille;i++){
+    for (int i=0; i < taille; i++){
         if (TabMask[i][col]!=0)
             nbrUn++;
     }
@@ -277,24 +278,19 @@ void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int taille) {
                 if (TabMask[i][j] != 1) {
                     int idc = 0, essai = -1;
                     int retour_utilisateur = 0;
-                    printf(" >---------------------------------------< \n Tour suivant");
+                    printf(" \n>-------------------Tour suivant-------------------< \n ");
                     afficherGrilleMasquee(Tab,TabMask,taille);
-                    printf(" Operation sur la case %d %d :\n", i, j);
+                    printf("  - Operation sur la case %d %d :\n", i, j);
                     int Somme_ligne = sommeLigne(Tab, TabMask, i, taille) ;
                     int Somme_col=sommeColonne(Tab, TabMask, j, taille ) ;
-                    printf(" \n Le tour: smligne %d  nbrsiniline %d", sommeLigne(Tab, TabMask, i, taille ),
-                           nombreSignificatifLigne(TabMask, i, taille));
-                    printf(" \n Le tour: smcol %d  nbrsinicol %d\n", sommeColonne(Tab, TabMask, j, taille ),
-                           nombreSignificatifColonne(TabMask, j, taille));
-                    printf("\nPret pour la prochaine action? (tapez 1) \n");
+                    printf("\nL'ordinateur reflechi... Pret? (tapez 1) \n");
                     scanf(" %d", &retour_utilisateur);
                     if ((Somme_ligne == taille/2) && (nombreSignificatifLigne(TabMask, i,taille) >= 2)) {
                         essai = 0;
                         idc++;
-                        printf(" solution 0 trouvee grace a sommeligne %d",sommeLigne(Tab, TabMask, j, taille) == 0);
+                        printf(" Solution : 0 somme de la ligne %d",sommeLigne(Tab, TabMask, j, taille) == 0);
                     }
                     else {
-                        printf("else somme ligne : %d donc  %d?",Somme_ligne,Somme_ligne && nombreSignificatifLigne(TabMask, i, taille) >= 2);
                         if (Somme_ligne==0 &&(nombreSignificatifLigne(TabMask, i, taille) >= 2)) {
                             idc++;
                             essai = 1;
@@ -316,6 +312,9 @@ void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int taille) {
                             essai = 1;
                             printf(" solution 1 trouvee grace à sommecol");
                         }
+                        else if (Somme_col==1 &&(nombreSignificatifColonne(TabMask, i, taille) == 3)){
+                            essai=1,idc++;
+                            printf(" essai 1 trouvé grace a nvelle fonction");}
                     }
                     // verif voisins
                     if (idc == 0) {
@@ -334,27 +333,33 @@ void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int taille) {
                         }
                     }
                     //voir si une solution a été trouvée
-                    printf("\n SOLUTION : %d avec %d changements\n", essai,idc);
-                    if (CoupValide(i, j, essai, Tab, TabMask, taille)==1) {
-                        TabMask[i][j] = 1;
-                        printf("Validation du changement dans le tableau :");
-                        antiblocage=0;
-                    }
-                    else if (!CoupValide(i, j, essai, Tab, TabMask, taille) && idc != 0)
-                            printf("IL A RATE  : %d ", CoupValide(i, j, essai, Tab, TabMask, taille));
-                        else {
-                            if (idc == 0){
-                                antiblocage++;
-                                printf("Rien n'a pu etre trouvé pour cette case...");}
-                            else
-                                printf("Il s'est trompé mais le coup était valide...");
+                    if (essai != -1){
+                        printf("\n IL A FAIT SON CHOIX : %d avec %d changements\n", essai,idc);
+                        if (CoupValide(i, j, essai, Tab, TabMask, taille)==1) {
+                            TabMask[i][j] = 1;
+                            printf("Validation du changement dans le tableau :");
+                            antiblocage=0;
                         }
-                    afficherGrilleMasquee(Tab, TabMask, taille);
-                    printf("\n<----fin du tour---->\n");
+                        else if (!CoupValide(i, j, essai, Tab, TabMask, taille) && idc != 0)
+                                printf("IL A RATE  : %d ", CoupValide(i, j, essai, Tab, TabMask, taille));
+                            else {
+                                if (idc == 0){
+                                    antiblocage++;
+                                    printf("Rien n'a pu etre trouvé pour cette case...");}
+                                else
+                                    printf("Il s'est trompé mais le coup etait valide...");
+                            }
+                    }
+                    else{
+                        printf("Il n'est pas possible de svaoir maintenant sur cette case...");
+                    }
+                    printf("\n<-------------fin du tour------------->\n");
                 }
             }
         }
     }
+    printf("\n ><------------------FIN-------------><\nVoila, c'est fini! A bientot !\n");
+
 }
 
 void resouGrille2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int taille) {
@@ -470,9 +475,9 @@ void P2(int choix){
     };
     int TabMask[T_4][T_4];
 //    afficherGrille(Tab, T_4);
-    printf("la partie commence, l'ordinateur voit la meme chose que vous.");
+    printf("la partie commence, l'ordinateur voit la meme chose que vous:\n");
     masquerGrille(TabMask,T_4);
-    afficherGrille(TabMask,T_4);
+//    afficherGrille(TabMask,T_4);
 //    afficherGrilleMasquee(Tab,TabMask,T_4);
     resouGrille(Tab,TabMask,T_4);
     }
