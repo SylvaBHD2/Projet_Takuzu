@@ -11,12 +11,12 @@ int main() {
     int chx;
     printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n\n");
     printf("Pour commnencer, choisissez une action :\n");
-    printf("\t1 - jouer au jeu soi meme \n\t2 - voir une grille se solutionner automatiquement \n\t3 - creation d'une grille auto \n : ");
+    printf("\t1 - Jouer au jeu soi meme \n\t2 - Voir une grille se solutionner automatiquement \n\t3 - Voir la creation d'une grille automatiquement \n : ");
     scanf(" %d", &chc);
     do{
-        printf("\t1 - resoudre en 4x4\n\t2 - resoudre en 8x8 \n : ");
+        printf("Quelle taille?\n");
+        printf("\t1 - en 4x4\n\t2 - en 8x8 \n : ");
         scanf(" %d", &chx);
-//    }while(chx!=2 && chx!=1);
     }while(chx==0);
 
 

@@ -15,20 +15,19 @@ int* creerTab(int taille){
     return tab;
 }
 
-int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]){
+void enterEssai(int TabMask[T_4][T_4],int *tab){
     int col=-1, ligne=-1, chiffre=-1, i=0;
-    while(col<0 || col>3 || ligne>3 || ligne<0 || (chiffre<0 || chiffre>1) || TabMask[ligne][col]==1) {
+    while(col<=0 || col>4 || ligne>4 || ligne<=0 || (chiffre<0 || chiffre>1) || TabMask[ligne-1][col-1]==1) {
         if (i>0) {
-            printf("\nUne variable etait fausse, impossible. Indiquez:  ligne , colonne, 0/1 : \n :");
+//            printf("%d %d %d",ligne,col,TabMask[ligne][col]);
+            printf("\nVariable impossible. Indiquez: [ ligne  colonne valeur ] : \n :");
         }
         scanf(" %d %d %d", &ligne, &col, &chiffre);
         i++;
     }
-    int tab2[3] = {ligne, col, chiffre};
-    tab [0] = tab2[0];
-    tab [1] = tab2[1];
-    tab [2] = tab2[2];
-   return tab2;
+    ligne--,col--;
+    printf("%d %d %d",ligne,col,TabMask[ligne][col]);
+    tab[0] = ligne, tab[1]=col, tab[2]=chiffre;
 }
 
 int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
@@ -49,12 +48,12 @@ int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]){
 }
 
 int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4][T_4],int taille) {
-    // retourne 1 si le coup est correct, 0 si valide mais inccorect, et si faux -1
+    // retourne 1 si le coup est correct, 0 si valide mais incorrect, et si faux -1
     if (Tab[ligne][col] == essai){
-        printf(" Validation : essai = %d, %d",essai,Tab[ligne][col]);
+//        printf(" Validation : essai = %d, %d",essai,Tab[ligne][col]);
         return 1;}
     else {
-        printf(" deliberation  : essai = %d, %d, ligne = %d et col = %d",essai,Tab[ligne][col],ligne,col);
+//        printf(" Deliberation  : essai = %d, %d, ligne = %d et col = %d",essai,Tab[ligne][col],ligne,col);
         // algo de décision
         if ((sommeLigne(Tab, TabMask, col, col) == 2) && (nombreSignificatifLigne(TabMask, ligne, taille) >= 2)){
             return 0;
@@ -64,9 +63,8 @@ int CoupValide(int ligne,int col,int essai,  int Tab[T_4][T_4], int TabMask[T_4]
                 return 0;
             }
         }
-        // verif voisin peux y avoir un pb
+        // verif voisin peux passer 2 fois
         if (verifierVoisinLigne(Tab,TabMask,ligne,col)==1){
-
             // modulo pour inverser par rapport aux voisins
             if (essai == Tab[ligne][col+1]%2)
                 printf("Regardez les voisins ...");
@@ -142,17 +140,16 @@ int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) {
     // affichage de la première grille
     int nbr_vies = 3;
     while (verifFin(TabMask, size) == 0 && nbr_vies != 0) {
-        printf("<----------------Debut du Tour------------------>");
+        printf("<----------------Debut du Tour------------------>\n\n");
         afficherGrilleMasquee(Tab, TabMask, size);
-        printf(" \n Que voulez vous faire? Indiquez:  ligne , colonne, 0/1 :\n :");
+        printf(" \n Que voulez vous faire? Indiquez: [ ligne  colonne valeur ] :\n :");
         // vérifie si le coup est valide
-        int try[3];
-        enterEssai(Tab, TabMask, try);
-//        printf("\nEssai sur: ligne %d , colonne: %d avec la valeur :%d ", try[0], try[1], try[2]);
+        int* try= (int*)malloc(sizeof(int)*3);
+        enterEssai(TabMask,try);
         if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == 1){
             TabMask[try[0]][try[1]] = 1;
-            printf("BRAVO! c'est la bonne reponse ! ");}
-        else if (CoupValide(try[0], try[1], try[2], TabMask, Tab, size) == -1) {
+            printf("\nBRAVO! c'est la bonne reponse ! \n");}
+        else if (CoupValide(try[0], try[1], try[2], Tab, TabMask, size) == -1) {
             nbr_vies--;
             printf("\nAttention vous venez de perdre une vie. Restant : %d", nbr_vies);
             revelerIndice(TabMask, size);
@@ -160,7 +157,7 @@ int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size) {
             revelerIndice(TabMask, size);
             printf("\nLe coup est valide, mais ce n'est pas la réponse, pour vous aider voici un indice :\n");
         }
-        printf("<----------Fin du tour----------->");
+        printf("<----------Fin du tour----------->\n");
     }
     if (verifFin(TabMask, size) == 1)
         printf("Vous avez fini le jeu, FELICITATIONS");
@@ -175,14 +172,14 @@ int jouer2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int size){
         afficherGrilleMasquee2(Tab, TabMask, size);
         printf(" \n Que voulez vous faire? indiquez:  ligne , colonne, 0/1 :");
         // vérifie si le coup est valide
-        int try[3];
-        enterEssai2(Tab, TabMask, try);
-        printf("\nessai sur %d, %d avec %d ",try[0],try[1],try[2]);
+        int *try=(int*)malloc(sizeof (int)*3);
+        *try=enterEssai2(Tab, TabMask, try);
+        printf("\nEssai sur %d, %d avec %d ",try[0],try[1],try[2]);
         if (CoupValide2(try[0], try[1], try[2], TabMask, Tab, size) == 1)
             TabMask[try[0]][try[1]] = 1;
         else if (CoupValide2(try[0], try[1], try[2], TabMask, Tab, size) == -1) {
             nbr_vies--;
-            printf("\nAttention vous venez de perdre une vie. Restant : %d",nbr_vies);
+            printf("\nAttention ! Vous venez de perdre une vie. Restant : %d",nbr_vies);
             revelerIndice2(TabMask,size);
         } else {
             revelerIndice2(TabMask,size);

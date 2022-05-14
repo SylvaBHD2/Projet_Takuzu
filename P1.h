@@ -7,8 +7,7 @@
 #define T_4 4
 #define T_8 8
 
-int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]);
-int enterEssai(int Tab[T_4][T_4],int TabMask[T_4][T_4],int tab[3]);
+void enterEssai(int TabMask[T_4][T_4],int * tab);
 int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]);
 int CoupValide(int i,int j,int essai,int Tab[T_4][T_4],int TabMask[T_4][T_4] ,int taille) ;
 int CoupValide2(int i,int j,int essai,int Tab[T_8][T_8], int TabMask[T_8][T_8] ,int size) ;

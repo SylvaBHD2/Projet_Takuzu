@@ -214,22 +214,22 @@ int verifierVoisinCol(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int co
     return 0;
 }
 
+int verifierVoisinLigne(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int col) {
+    if (col==0 || col==T_4)
+        return 0;
+    if ((TabMask[ligne][col + 1] == 1) && (TabMask[ligne][col - 1] == 1)) {
+        if (Tab[ligne][col - 1] == Tab[ligne][col + 1])
+            return 1;
+    }
+    return 0;
+}
+
 int verifierVoisinLigne2(int Tab[T_8][T_8],int TabMask[T_8][T_8], int ligne, int col){
     // regarde les voisins immédiats, et retourne 1 si c'est possible d'en déduire qlqchose, sinon 0
     if (ligne==0 || ligne==T_4)
         return 0;
     if (TabMask[ligne+1][col]==1 && TabMask[ligne-1][col]==1) {
         if (Tab[ligne + 1][col] == Tab[ligne - 1][col])
-            return 1;
-    }
-    return 0;
-}
-
-int verifierVoisinLigne(int Tab[T_4][T_4],int TabMask[T_4][T_4], int ligne, int col) {
-    if (col==0 || col==T_4)
-        return 0;
-    if ((TabMask[ligne][col + 1] == 1) && (TabMask[ligne][col + 1] == 1)) {
-        if (Tab[ligne][col - 1] == Tab[ligne][col + 1])
             return 1;
     }
     return 0;
@@ -268,10 +268,7 @@ int verifFin2(int TabMask[T_8][T_8],int taille){
 void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int taille) {
     int antiblocage=0;
     while (verifFin(TabMask, taille) != 1) {
-        if (antiblocage >= taille/2){
-            revelerIndice(TabMask,taille);
-            printf("Un indice est donné, sinon le bot est bloqué ...\n");
-            antiblocage=0;}
+
         for (int i = 0; i < taille; ++i) {
             for (int j = 0; j < taille; ++j) {
                 // dès qu'il y a un 0
@@ -320,21 +317,25 @@ void resouGrille(int Tab[T_4][T_4],int TabMask[T_4][T_4],int taille) {
                     if (idc == 0) {
                         if (verifierVoisinLigne(Tab, TabMask, i, j) == 1) {
                             // modulo pour inverser par rapport aux voisins
-                            essai = TabMask[i][j + 1] % 2;
+                            essai = Tab[i][j + 1]+1 % 2;
                             printf(" solution trouvee grace a voisin line :; %d",essai);
                         }
                         else {
                             if (verifierVoisinCol(Tab, TabMask, i, j) == 1) {
                                 // modulo pour inverser par rapport aux voisins
-                                essai= TabMask[i + 1][j] % 2;
+                                essai = Tab[i + 1][j]+1 % 2;
                                 idc++;
                                 printf(" solution trouvee grace a voisin col;: %d", essai);
                             }
                         }
                     }
                     //voir si une solution a été trouvée
+                    if (antiblocage >= taille/2 && essai==-1){
+                        essai=rand()%2;
+                        printf("Le Bot donne un coup au hasard, pour se debloquer...\n");
+                        antiblocage=0;}
                     if (essai != -1){
-                        printf("\n IL A FAIT SON CHOIX : %d avec %d changements\n", essai,idc);
+                        printf("\n Il a fait son choix : %d avec %d changements\n", essai,idc);
                         if (CoupValide(i, j, essai, Tab, TabMask, taille)==1) {
                             TabMask[i][j] = 1;
                             printf("Validation du changement dans le tableau :");
@@ -441,29 +442,6 @@ void resouGrille2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int taille) {
     }
 }
 
-int comparerMatrice(int Tab[T_4][T_4],int Tab2[T_4][T_4],int ligne, int col){
-    //retourne 1 si les 1 et 0 sont bien placés, 0 sinon (prends le masque en compte)
-    for (int i = 0; i < T_4; ++i) {
-        for (int j = 0; j < T_4; ++j) {
-            if (Tab[i][j] != Tab2[i][j]) {
-                return 0;
-            }
-            return 1;
-        }
-    }
-}
-
-int comparerMatrice2(int Tab[T_8][T_8],int Tab2[T_8][T_8],int ligne, int col){
-    //retourne 1 si les 1 et 0 sont bien placés, 0 sinon (prends le masque en compte)
-    for (int i = 0; i < T_8; ++i) {
-        for (int j = 0; j < T_8; ++j) {
-            if (Tab[i][j] != Tab2[i][j]) {
-                return 0;
-            }
-            return 1;
-        }
-    }
-}
 
 //fonction principale
 void P2(int choix){
@@ -474,11 +452,8 @@ void P2(int choix){
                          {1,0,0,1},
     };
     int TabMask[T_4][T_4];
-//    afficherGrille(Tab, T_4);
     printf("la partie commence, l'ordinateur voit la meme chose que vous:\n");
     masquerGrille(TabMask,T_4);
-//    afficherGrille(TabMask,T_4);
-//    afficherGrilleMasquee(Tab,TabMask,T_4);
     resouGrille(Tab,TabMask,T_4);
     }
 
@@ -493,10 +468,7 @@ void P2(int choix){
                          {1,1,0,0,1,0,0,1}
     };
     int TabMask[T_8][T_8];
-//    afficherGrille2(Tab, T_8);
     masquerGrille2(TabMask,T_8);
-//    afficherGrille2(TabMask,T_8);
-//    afficherGrilleMasquee2(Tab,TabMask,T_8);
     resouGrille2(Tab,TabMask,T_8);
     }
 }
