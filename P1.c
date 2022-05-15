@@ -10,9 +10,9 @@
 
 
 
-void entrerEssai(int **TabMask, int *tab){
+void entrerEssai(int **TabMask, int *tab,int taille){
     int col=-1, ligne=-1, chiffre=-1, i=0;
-    while(col<=0 || col>4 || ligne>4 || ligne<=0 || (chiffre<0 || chiffre>1) || TabMask[ligne-1][col-1]==1) {
+    while(col<=0 || col>taille || ligne>taille || ligne<=0 || (chiffre<0 || chiffre>1) || TabMask[ligne-1][col-1]==1) {
         if (i>0) {
 //            printf("%d %d %d",ligne,col,TabMask[ligne][col]);
             printf("\nVariable impossible. Indiquez: [ ligne  colonne valeur ] : \n :");
@@ -21,19 +21,14 @@ void entrerEssai(int **TabMask, int *tab){
         i++;
     }
     ligne--,col--;
-//    printf("%d %d %d",ligne,col,TabMask[ligne][col]);
     tab[0] = ligne, tab[1]=col, tab[2]=chiffre;
 }
 
 int CoupValide(int ligne,int col,int essai,  int **Tab, int **TabMask,int taille) {
     // retourne 1 si le coup est correct, -1 si valide mais incorrect, et si faux 0
     if (Tab[ligne][col] == essai){
-//        printf(" Validation : essai = %d, %d",essai,Tab[ligne][col]);
         return 1;}
     else {
-//        printf(" Deliberation  : essai = %d == %d,;  smlin=%d, smCol=%d, sinilin=%d, sinicol=%d\n", essai,
-//               Tab[ligne][col],sommeLigne(Tab, TabMask, ligne, taille), sommeColonne(Tab, TabMask, col, taille),
-//               nombreSignificatifLigne(TabMask, ligne, taille), nombreSignificatifColonne(TabMask, col, taille));
         // algo de décision
         //pour les lignes
         if ((sommeLigne(Tab, TabMask, ligne, taille) == taille / 2) &&
@@ -47,8 +42,8 @@ int CoupValide(int ligne,int col,int essai,  int **Tab, int **TabMask,int taille
                 return 0;
             }
             //condition particuliere pour les lignes
-            if (sommeLigne(Tab, TabMask, ligne, taille) == (taille / 2) - 1 &&
-                       (nombreSignificatifLigne(TabMask, ligne, taille) == (taille / 2) + 1)) {
+            if (sommeLigne(Tab, TabMask, ligne, taille) == 1 &&
+                       (nombreSignificatifLigne(TabMask, ligne, taille) >= (taille / 2)+1)) {
                 printf("la solution est evidente");
                 return 0;
             }
@@ -70,8 +65,7 @@ int CoupValide(int ligne,int col,int essai,  int **Tab, int **TabMask,int taille
                     return 0;
                 }
                 //condition particuliere
-                if (sommeColonne(Tab, TabMask, col, taille) == (taille / 2) - 1 &&
-                           (nombreSignificatifColonne(TabMask, col, taille) == (taille / 2) + 1)) {
+                if (sommeColonne(Tab, TabMask, col, taille) == 1 && (nombreSignificatifColonne(TabMask, col, taille) >= (taille / 2)+1)) {
                     printf("la solution est evidente 2");
                     return 0;
                 }
@@ -118,20 +112,19 @@ int jouer(int** Tab,int **TabMask,int taille) {
         printf(" \n Que voulez vous faire? Indiquez: [ ligne  colonne valeur ] :\n :");
         // vérifie si le coup est valide
         int* try= (int*)malloc(sizeof(int)*3);
-        entrerEssai(TabMask, try);
+        entrerEssai(TabMask, try,taille);
 //        printf("\n Le try : %d %d %d \n",try[0],try[1],try[2]);
         if (CoupValide(try[0], try[1], try[2], Tab , TabMask,taille) == 1){
             TabMask[try[0]][try[1]] = 1;
             printf("\nBRAVO! c'est la bonne reponse ! \n");}
         else if (CoupValide(try[0], try[1], try[2], Tab, TabMask, taille) == 0) {
             nbr_vies--;
-            printf("\nAttention vous venez de perdre une vie. Restant : %d\n Pour vous, ajoutons un indice... \n", nbr_vies);
+            printf("\nAttention vous venez de perdre une vie. Restant : %d\n Pour vous aider, ajoutons un indice... \n", nbr_vies);
             revelerIndice(TabMask, taille);
         } else {
             revelerIndice(TabMask, taille);
             printf("\nLe coup est valide, mais ce n'est pas la réponse...\n");
         }
-        printf("<----------Fin du tour----------->\n");
     }
     if (verifFin(TabMask, taille) == 1)
         printf("Vous avez fini le jeu, FELICITATIONS");

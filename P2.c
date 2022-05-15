@@ -7,8 +7,7 @@
 #include "P1.h"
 #include "P2.h"
 #include "P3.h"
-#define T_4 4
-#define T_8 8
+
 
 void afficherGrille(int**Tab, int nbrLigne, int nbrCol){
     // Si la grille du masque en coordonnées (i,j) =  1 alors la grille principale est masquée sur ces coordonnées
@@ -105,7 +104,6 @@ int nombreSignificatifColonne(int **TabMask, int col, int taille){
     return nbrUn;
 }
 
-
 int nombreSignificatifLigne(int **TabMask, int ligne, int taille){
     //retourne le nbr de 1 et de 0 découverts dans une colonne
     int nbrUn=0;
@@ -116,19 +114,8 @@ int nombreSignificatifLigne(int **TabMask, int ligne, int taille){
     return nbrUn;
 }
 
-int verifierVoisinCol(int **Tab,int **TabMask, int ligne, int col,int taille){
-    // regarde les voisins immédiats, et retourne 1 si c'est possible d'en déduire qlqchose, sinon 0
-    if (ligne==0 || ligne==taille)
-        return 0;
-    if (TabMask[ligne+1][col]==1 && TabMask[ligne-1][col]==1) {
-        if (Tab[ligne + 1][col] == Tab[ligne - 1][col])
-            return 1;
-    }
-    return 0;
-}
-
 int verifierVoisinLigne(int **Tab ,int** TabMask, int ligne, int col,int taille) {
-    if (col==0 || col==taille)
+    if (col==0 || col==(taille-1))
         return 0;
     if ((TabMask[ligne][col + 1] == 1) && (TabMask[ligne][col - 1] == 1)) {
         if (Tab[ligne][col - 1] == Tab[ligne][col + 1])
@@ -137,9 +124,67 @@ int verifierVoisinLigne(int **Tab ,int** TabMask, int ligne, int col,int taille)
     return 0;
 }
 
+int verifierVoisinCol(int **Tab,int **TabMask, int ligne, int col,int taille){
+    // regarde les voisins immédiats, et retourne 1 si c'est possible d'en déduire qlqchose, sinon 0
+    if (ligne==0 || ligne==(taille-1))
+        return 0;
+    if (TabMask[ligne+1][col]==1 && TabMask[ligne-1][col]==1) {
+        if (Tab[ligne + 1][col] == Tab[ligne - 1][col])
+            return 1;
+    }
+    return 0;
+}
+
+int verifSuiteCol(int **Tab, int **TabMask, int ligne, int col, int taille){
+    // regarde les voisins immédiats, et retourne 1 ou -1 si c'est possible d'en déduire qlqchose, sinon 0 ,
+    if (ligne >= taille-2){
+        if (TabMask[ligne-1][col]==1 && TabMask[ligne-2][col]==1)
+            if (Tab[ligne-1][col] == Tab[ligne-2][col]){
+                return -1;}
+        return 0;}
+    if (ligne<=1){
+        if (TabMask[ligne+1][col]==1 && TabMask[ligne+2][col]==1)
+            if (Tab[ligne+1][col] == Tab[ligne+2][col]){
+                return 1;}
+        return 0;}
+    //autres cas
+    if (TabMask[ligne-1][col]==1 && TabMask[ligne-2][col]==1 ){
+        if (Tab[ligne-1][col] == Tab[ligne-2][col])
+            return -1;
+    }
+    if (TabMask[ligne+1][col]==1 && TabMask[ligne+2][col]==1 )
+        if (Tab[ligne+1][col] == Tab[ligne+2][col]){
+            return 1;}
+    return 0;
+}
+
+int verifSuiteLigne(int **Tab, int **TabMask, int ligne, int col, int taille){
+    // regarde les voisins immédiats, et retourne 1 si c'est possible d'en déduire qlqchose, sinon 0 sinon -1
+    if (col>=taille-2){
+        if (TabMask[ligne][col-1]==1 && TabMask[ligne][col-2]==1)
+            if (Tab[ligne][col-1] == Tab[ligne][col-2])
+                return -1;
+        return 0;}
+    if (col<=1){
+        if (TabMask[ligne][col+1]==1 && TabMask[ligne][col+2]==1)
+            if (Tab[ligne][col+1] == Tab[ligne][col+2])
+                return 1;
+        return 0;}
+    //autres cas
+    if (TabMask[ligne][col-1]==1 && TabMask[ligne][col-2]==1 ){
+        if (Tab[ligne][col-1] == Tab[ligne][col-2]){
+            return -1;}
+        }
+    if (TabMask[ligne][col+1]==1 && TabMask[ligne][col+2]==1 ){
+        if (Tab[ligne][col+1] == Tab[ligne][col+2]){
+            return 1;}
+    }
+    return 0;
+}
+
 
 int verifFin(int **TabMask,int taille){
-    //retourne 1 si la patrice ne contiens aucune zone masquée
+    //retourne 1 si la matrice ne contiens aucune zone masquée
     for (int i = 0; i < taille; ++i) {
         for (int j = 0; j < taille; ++j) {
             if (TabMask[i][j]==0)
@@ -160,91 +205,121 @@ void resGrille(int **Tab, int** TabMask, int taille) {
                     int idc = 0, essai = -1;
                     int retour_utilisateur = 0;
                     printf(" \n>-------------------Tour suivant-------------------< \n ");
-                    afficherGrilleMasquee(Tab,TabMask,taille);
-                    printf("  - Operation sur la case %d %d :\n", i+1, j+1);
-                    int Somme_ligne = sommeLigne(Tab, TabMask, i, taille) ;
-                    int Somme_col=sommeColonne(Tab, TabMask, j, taille ) ;
-                    printf("\nL'ordinateur reflechi... Pret? (tapez 1) \n");
+                    afficherGrilleMasquee(Tab, TabMask, taille);
+                    printf("  - Operation sur la case %d %d :\n", i + 1, j + 1);
+                    int Somme_ligne = sommeLigne(Tab, TabMask, i, taille);
+                    int Somme_col = sommeColonne(Tab, TabMask, j, taille);
+                    printf("\nL'ordinateur reflechit... Pret? (tapez 1) \n");
                     scanf(" %d", &retour_utilisateur);
-                    if ((Somme_ligne == taille/2) && (nombreSignificatifLigne(TabMask, i,taille) >= 2)) {
+                    if ((Somme_ligne == taille / 2) && (nombreSignificatifLigne(TabMask, i, taille) >= 2)) {
                         essai = 0;
                         idc++;
                         printf(" Solution : 0 (somme de la ligne) ");
-                    }
-                    else {
-                        if (Somme_ligne==0 &&(nombreSignificatifLigne(TabMask, i, taille) >= taille/2)) {
+                    } else {
+                        if (Somme_ligne == 0 && (nombreSignificatifLigne(TabMask, i, taille) >= taille / 2)) {
                             idc++;
                             essai = 1;
-                            printf(" Solution : 1 trouvee (somme de la ligne) ");
+                            printf(" Solution : 1 (somme de la ligne) ");
                         }
-                        else if (Somme_ligne==1 &&(nombreSignificatifLigne(TabMask, i, taille) == 3)){
-                            essai=1,idc++;
-                            printf(" Solution : 1 ( ligne evidente)");}
-                    }
+                        else
+                            if (Somme_ligne == 1 &&
+                                   (nombreSignificatifLigne(TabMask, i, taille) >= (taille / 2) + 1)){
+                            essai = 1, idc++;
+                            printf(" Solution : 1 ( ligne evidente)");
+                            }
+                            else{ if (nombreSignificatifLigne(TabMask, i, taille)==taille-1 && (nombreSignificatifLigne(TabMask, i, taille)-Somme_ligne)==taille/2){
+                                    essai = 1, idc++;
+                                    printf(" Solution : 1 ( ligne evidente)");
+                                }
+                            }
+
+
+                        }
                     // essai avc somme des colonnes
-                    if (Somme_col == taille/2 && (nombreSignificatifColonne(TabMask, j,taille) >= 2)) {
+                    if (Somme_col == taille / 2 && (nombreSignificatifColonne(TabMask, j, taille) >= taille / 2)) {
                         essai = 0;
                         idc++;
                         printf(" Solution: 0  (somme de la colonne)");
                     }
                     else {
-                        if ((Somme_col == 0) &&(nombreSignificatifColonne(TabMask, j, taille) >= 2)) {
+                        if ((Somme_col == 0) && (nombreSignificatifColonne(TabMask, j, taille) >= taille / 2)) {
                             idc++;
                             essai = 1;
                             printf(" Solution 1 ( somme de la colonne)");
+                        } else if (Somme_col == 1 &&
+                                   (nombreSignificatifColonne(TabMask, j, taille) >= (taille) / 2 + 1)) {
+                            essai = 1, idc++;
+                            printf(" Solution : 1 ( colonne evidente car %d-1 zeros)",
+                                   (nombreSignificatifColonne(TabMask, i, taille)));
+                        } else {
+                            if (nombreSignificatifColonne(TabMask, j, taille)==taille-1 && (nombreSignificatifColonne(TabMask, j, taille) - Somme_ligne) == taille / 2) {
+                                essai = 1, idc++;
+                                printf(" Solution : 1 ( colonne evidente)");
+                            }
                         }
-                        else if (Somme_col==1 &&(nombreSignificatifColonne(TabMask, i, taille) == 3)){
-                            essai=1,idc++;
-                            printf(" Solution : 1 ( colonne evidente)");}
                     }
                     // verif voisins
                     if (idc == 0) {
-                        if (verifierVoisinLigne(Tab, TabMask, i, j,taille) == 1) {
+                        if (verifierVoisinLigne(Tab, TabMask, i, j, taille) == 1) {
                             // modulo pour inverser par rapport aux voisins
-                            essai = Tab[i][j + 1]+1 % 2;
-                            printf(" Solution (voisins dans la ligne) ");
-                        }
-                        else {
-                            if (verifierVoisinCol(Tab, TabMask, i, j,taille) == 1) {
+                            essai = (Tab[i][j + 1] + 1) % 2;
+                            idc++;
+                            printf(" Solution %d(voisins dans la ligne) ", essai);
+                        } else {
+                            if (verifierVoisinCol(Tab, TabMask, i, j, taille) == 1) {
                                 // modulo pour inverser par rapport aux voisins
-                                essai = Tab[i + 1][j]+1 % 2;
+                                essai = (Tab[i + 1][j] + 1) % 2;
                                 idc++;
-                                printf(" Solution (voisins dans la colonne)");
+                                printf(" Solution : %d(voisins dans la colonne)", essai);
+                            }
+                        }
+                        if (verifSuiteCol(Tab, TabMask, i, j, taille) != 0) {
+                            essai = (Tab[i + verifSuiteCol(Tab, TabMask, i, j, taille)][j] + 1) % 2;
+                            printf(" Solution :%d (voisins consecutifs dans la colonne) : %d", essai,
+                                   (Tab[i][j + verifSuiteCol(Tab, TabMask, i, j, taille)] + 1));
+                            idc++;
+                        } else {
+                            if (verifSuiteLigne(Tab, TabMask, i, j, taille) != 0) {
+                                printf("calcul de lalias");
+                                int alias = j+verifSuiteLigne(Tab, TabMask, i, j, taille);
+                                essai = (Tab[i][alias] + 1) % 2;
+                                printf(" Solution : %d (voisins consecutifs dans la ligne) voisin= %d i: %d et j : %d",
+                                       essai, (Tab[i][alias]),i, alias);
+                                idc++;
                             }
                         }
                     }
-                    //voir si une solution a été trouvée
-                    if (antiblocage >= 1 && essai==-1){
-                        essai=rand()%2;
+                    //voir si une solution a été trouvée ou si le bot est bloqué
+                    if (antiblocage >= taille/2 && essai == -1) {
                         printf("Le Bot donne un coup au hasard, pour se debloquer...\n");
-                        antiblocage=0;}
+                        essai = rand() % 2;
+                        antiblocage = 0;
+                    }
                     //verification de la solution
-                    if (essai != -1){
-                        printf("\n Il a fait son choix : %d\n", essai);
-                        if (CoupValide(i, j, essai, Tab, TabMask, taille)==1) {
+                    if (essai != -1) {
+                        if (CoupValide(i, j, essai, Tab, TabMask, taille) == 1) {
                             TabMask[i][j] = 1;
                             printf("Validation du changement dans le tableau :");
-                            antiblocage=0;
+                            antiblocage = 0;
                         }
-                        else if (!CoupValide(i, j, essai, Tab, TabMask, taille) && idc != 0)
-                                printf("IL A RATE  : %d ", CoupValide(i, j, essai, Tab, TabMask, taille));
-                            else {
-                                if (idc == 0){
-                                    antiblocage++;
-                                    printf("Rien n'a pu etre trouvé pour cette case...");}
-                                else
-                                    printf("Il s'est trompé mais le coup etait valide...");
-                            }
+                        else if(!CoupValide(i, j, essai, Tab, TabMask, taille) && idc != 0)
+                            printf("IL A RATE  : %d ", CoupValide(i, j, essai, Tab, TabMask, taille));
+
                     }
-                    else{
-                        printf("Il n'est pas possible de savoir maintenant sur cette case...");
+                    else {
+                        if (idc == 0) {
+                            antiblocage++;
+                            printf("Impossible de savoir pour cette case a cet instant...");
+                        }
                     }
                 }
             }
         }
     }
-    printf("\n ><------------------FIN-------------><\nVoila, c'est fini!\n");
+    printf("\n ><----------------FIN----------------><\nVoila, c'est fini!\n");
+    afficherGrille(Tab,taille,taille);
 }
+
 
 //fonction principale
 void P2(int choix){
@@ -253,7 +328,7 @@ void P2(int choix){
     Tab= creer_grille(taille,1);
     int **TabMask=(int**)malloc(sizeof(int*)*taille);
     masquerGrille(TabMask,taille);
-    printf("la partie commence, l'ordinateur voit la meme chose que vous:\n");
+    printf("La partie commence, l'ordinateur voit la meme chose que vous:\n");
     masquerGrille(TabMask,taille);
     resGrille(Tab, TabMask, taille);
 }

@@ -4,8 +4,6 @@
 
 #ifndef PROJET_TAKUZU_P2_H
 #define PROJET_TAKUZU_P2_H
-#define T_4 4
-#define T_8 8
 
 
 void masquerGrille(int **tab,int taille);
@@ -18,6 +16,8 @@ int nombreSignificatifColonne(int **TabMask, int col,int taille);
 int nombreSignificatifLigne(int **TabMask, int ligne, int taille);
 int verifierVoisinLigne(int **Tab,int **TabMask , int ligne, int col,int taille);
 int verifierVoisinCol(int **Tab,int **TabMask, int ligne, int col,int taille);
+int verifSuiteCol(int **Tab, int **TabMask, int ligne, int col, int taille);
+int verifSuiteLigne(int **Tab, int **TabMask, int ligne, int col, int taille);
 int verifFin(int **TabMask,int taille);
 void resGrille(int **Tab, int **TabMask, int taille) ;
 void P2(int choix);

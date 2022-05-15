@@ -6,7 +6,6 @@
 #include "P3.h"
 #include "P2.h"
 #include <time.h>
-#define T_4 4
 
 
 int random(int module){

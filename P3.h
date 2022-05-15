@@ -4,7 +4,6 @@
 
 #ifndef PROJET_TAKUZU_P3_H
 #define PROJET_TAKUZU_P3_H
-#define T_4 4
 #endif //PROJET_TAKUZU_P3_H
 
 int random(int module);

@@ -17,7 +17,7 @@ int main() {
         printf("Quelle taille?\n");
         printf("\t1 - en 4x4\n\t2 - en 8x8 \n : ");
         scanf(" %d", &chx);
-    }while(chx==0);
+    }while(chx!=1 && chx !=2);
 
 
 switch (chc){
