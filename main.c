@@ -37,7 +37,7 @@ switch (chc){
 
         //generation de grille pseudo-aléatoire
         case 3:{
-            P3(chx,0);
+            P3(chx);
             break;
         }
         // saisie sécursiée

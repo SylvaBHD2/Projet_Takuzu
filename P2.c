@@ -345,7 +345,7 @@ void P2(int choix){
     //allocation dynamique et création des variables
     int taille=choix*4;
     int** Tab;
-    Tab= creer_grille(taille,1);
+    Tab= creer_grille(taille,0);
     int **TabMask=(int**)malloc(sizeof(int*)*taille);
     //création du masque aléatoire
     masquerGrille(TabMask,taille);

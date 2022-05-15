@@ -102,6 +102,7 @@ void melangerTab(int** grille, int taille){
 }
 
 int** creer_grille(int taille,int silence){
+    int retour_utilisateur;
     //la fcontion crée une grille de taille paire valide pour le jeu du Takuzu
     int** tab_valide=(int**) malloc(taille*taille/2*sizeof(int*));
     //comtpeur de possibilités de combinaison
@@ -119,7 +120,7 @@ int** creer_grille(int taille,int silence){
         }
     }
     //affichage de toute les combinaison possibles
-    if(!silence){
+    if(silence==1){
         afficherGrille(tab_valide, nbrLigne, taille);
         printf("Voici ci-dessus la liste des combinaisons valides (%d lignes)\n",nbrLigne);
     }
@@ -127,7 +128,9 @@ int** creer_grille(int taille,int silence){
     int **grille = (int**) malloc(taille*sizeof(int*));
     // ajout de l'aléa
     int choix_hasard=random(nbrLigne);
-    if (!silence) printf("Maintenant, la generation:\n");
+    printf("\nPret? (tapez 1) \n");
+    scanf(" %d", &retour_utilisateur);
+    if (silence==2) printf("Maintenant, la generation:\n");
     // choix des lignes génératrices
     for (int i = 0; i < taille; ++i) {
         // sur les lignes paires, on met de nouvelle lignes si elle ne sont pas déja sur l'echequier
@@ -155,21 +158,36 @@ int** creer_grille(int taille,int silence){
                 grille[i] = ligne_inv;
             }
         }
+        // interaction avec l'utilisateur
+        if(silence==2 && i!=0){
+            printf("\nUne ligne a ete ajoutee... Pret? (tapez 1) \n");
+            scanf(" %d", &retour_utilisateur);
+            afficherGrille(grille,i,taille);}
     }
-    if (!silence) {
+    if (silence==2) {
         printf("Voici la grille :\n");
         afficherGrille(grille,taille,taille);}
     //melanger grille pour plus d'aléa
     melangerTab(grille,taille);
-    if (!silence){
+    if (silence==2){
+        printf("\nLa grille se melange... Pret? (tapez 1) \n");
+        scanf(" %d", &retour_utilisateur);
         printf("Et voici la grille finale:\n");
         afficherGrille(grille,taille,taille);}
+    //libérer l'espace alloué
     return (int **) grille;
 }
 
-void P3(int choix,int silence){
+void P3(int choix){
     //définition des variable
-    int taille=4*choix;
+    int taille=4*choix, chc;
+    //menu de choix
+    do{
+        printf("Quelle partie de l'algo vous interesse?\n");
+        printf("\t1 - Voir uniquement les combinaisons possibles\n\t2 - Generer une grille entiere valide \n : ");
+        scanf(" %d", &chc);
+    }while(chc!=1 && chc !=2);
     //algorithme
-    creer_grille(taille,silence);
+    int **Temp=creer_grille(taille,chc);
+    free(Temp);
 }

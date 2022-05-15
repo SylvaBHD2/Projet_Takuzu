@@ -16,4 +16,4 @@ int verifPres(int** tab, int* temp,int taille,int nbrligne);
 int verifierVoisinsLigne(int* tab, int taille);
 void melangerTab(int** grille, int taille);
 int** creer_grille(int taille,int silence);
-void P3(int choix,int silence);
+void P3(int choix);

@@ -184,7 +184,7 @@ void P1(int choix){
     //définition des constante en fonction du choix des joueurs
     int taille=choix*4;
     //creation des deux tableau dynamiques
-    int **Tab = creer_grille(taille,1);
+    int **Tab = creer_grille(taille,0);
     int** TabMask=(int**)malloc(sizeof(int*)*taille);
     masquerGrille(TabMask,taille);
     //fonction pour jouer
