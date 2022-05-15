@@ -2,7 +2,4 @@
 # Projet_Takuzu
 TAKUZU GAME IN C
 
-*TODO LIST*
-- menu joli
-- génération de la grille 4*4, 8*8
-  - afficher, modifier une valeur
+Bienvenu dans ce projet, le Takuzu programmé en C dans le but d'en apprendre plus à propos de ce langage...e
