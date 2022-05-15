@@ -31,10 +31,11 @@ switch (chc){
             break;}
 
         case 3:{
-            P3(chx);
+            P3(chx,0);
             break;
         }
         default : printf("\nCe numero n'existe pas. \n");
     }
+    printf("\nMerci d'avoir pris le temps de tester le jeu ! A bientot!\n");
     return 0;
 }

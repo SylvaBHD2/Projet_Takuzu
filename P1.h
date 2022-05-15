@@ -7,13 +7,9 @@
 #define T_4 4
 #define T_8 8
 
-void enterEssai(int TabMask[T_4][T_4],int * tab);
-int enterEssai2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int tab[3]);
-int CoupValide(int i,int j,int essai,int Tab[T_4][T_4],int TabMask[T_4][T_4] ,int taille) ;
-int CoupValide2(int i,int j,int essai,int Tab[T_8][T_8], int TabMask[T_8][T_8] ,int size) ;
-int revelerIndice(int TabMask[T_4][T_4],int size);
-int revelerIndice2(int TabMask[T_8][T_8],int size);
-int jouer(int Tab[T_4][T_4],int TabMask[T_4][T_4],int size);
-int jouer2(int Tab[T_8][T_8],int TabMask[T_8][T_8],int size);
-void P1(int choix);
+void entrerEssai(int **TabMask, int *tab);
+int CoupValide(int i,int j,int essai,int **Tab,int** TabMask ,int taille) ;
+int revelerIndice(int **TabMask,int taille);
+int jouer(int **Tab,int **TabMask,int taille);
+void P1(int taille);
 #endif //PROJET_TAKUZU_P1_H

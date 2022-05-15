@@ -33,14 +33,14 @@ void afficher_bin(int* tab,int taille){
 void transforme_binaire(int * tab, int numero, int taille){
     int *code_binaire = (int*) malloc(taille * sizeof(int));
     for (int i = 0; i < taille; ++i) {
-        *(code_binaire+i) = numero%2;
+        code_binaire[i] = numero%2;
         numero = numero/2;
-        *(tab+i) = *(code_binaire+i);
+        tab[i] = code_binaire[i];
     }
 }
 
 // sert a la construction auto
-int sommeTab(int Tab[T_4],int taille){
+int sommeTab(int* Tab,int taille){
     int somme=0;
     for (int i=0; i < taille; i++){
         somme+=Tab[i];
@@ -85,7 +85,7 @@ int verifPres(int** tab, int* temp,int taille,int nbrligne){
     return 0;
 }
 
-int verifierVoisins(int* tab,int taille){
+int verifierVoisinsLigne(int* tab, int taille){
     int val2, val1;
     for (int i = 2; i < taille; ++i) {
         val2=tab[i-2];
@@ -97,32 +97,71 @@ int verifierVoisins(int* tab,int taille){
     return 1;
 }
 
-void melangerTab(int** grille, int taille){
-    //mélange les lignes de la grille pour plus d'aléa
-    for (int i = 0; i < random(taille); ++i) {
-        int choix_hasard = random(taille),choix_hasard2=random(taille);
-        int* temp = grille[choix_hasard];
-        grille[choix_hasard] = grille[choix_hasard2];
-        grille[choix_hasard2] = temp;
+int verifierVoisinsColonne(int** tab, int col, int taille){
+    int val2, val1;
+    printf("\nla colonne %d; ",col);
+    for (int i = 2; i < taille; ++i) {
+        val2 = tab[i-2][col];
+        val1 = tab[i-1][col];
+        int alias = val2+val1+tab[i][col];
+        printf("\nl'indice %d ; %d",i,alias);
+        if (alias==0 || alias>=3)
+            printf("\nla colonne %d est mauvaise!",col);
+            return 0;
     }
+    printf("\nla colonne %d est good to go",col);
+    return 1;
 }
 
-void creer_grille(int taille){
+void melangerTab(int** grille, int taille){
+    //mélange les lignes de la grille pour plus d'aléa
+    if (taille==4){
+        for (int i = 0; i < random(taille); ++i) {
+            int choix_hasard = random(taille),choix_hasard2=random(taille);
+            int* temp = grille[choix_hasard];
+            grille[choix_hasard] = grille[choix_hasard2];
+            grille[choix_hasard2] = temp;
+        }
+    }
+//    else {
+//        int temoin=0;
+//        while(temoin==0){
+//            printf("Mélange en cours (%d)...\n",temoin);
+//            for (int i = 0; i < random(taille); ++i) {
+//                int choix_hasard = random(taille),choix_hasard2=random(taille);
+//                int* temp = grille[choix_hasard];
+//                grille[choix_hasard] = grille[choix_hasard2];
+//                grille[choix_hasard2] = temp;
+//            }
+//            afficherGrille(grille,taille,taille);
+//            for (int j = 0; j < taille; ++j) {
+//                if (verifierVoisinsColonne(grille,j,taille))
+//                    temoin++;
+//            }
+//            if (temoin==taille)
+//                temoin=1;
+//            else
+//                temoin=0;
+//        }
+//    }
+}
+
+int** creer_grille(int taille,int silence){
     int** tab_valide=(int**) malloc(taille*taille/2*sizeof(int*)); // pas opti
     int nbrLigne=0;
-    for (int i = 0; i < taille*taille; ++i) {
+    for (int i = 0; i < puissance(2,taille); ++i) {
         //nouveau pointeur
-        printf("temoinj %d",i);
         int* temp=(int* )malloc(sizeof(int)*taille);
         transforme_binaire(temp, i, taille);
-        afficherLignePtr(temp,taille);
-        if ( (sommeTab(temp, taille) == taille/2 ) && (verifierVoisins(temp,taille)==1) ) {
+//        afficherLignePtr(temp,taille);
+//        printf("celui la (%d): somme = %d ; voisins =%d\n",i,sommeTab(temp, taille) == taille/2 , verifierVoisinsLigne(temp,taille));
+        if ( (sommeTab(temp, taille) == taille/2 ) && (verifierVoisinsLigne(temp, taille) == 1) ) {
             tab_valide[nbrLigne] = temp;
             ++nbrLigne;
         }
     }
-    afficherGrillePtr(tab_valide, nbrLigne, taille);
-    printf("Voici ci-dessus la liste des valides\n");
+    afficherGrille(tab_valide, nbrLigne, taille);
+    printf("Voici ci-dessus la liste des combinaisons valides (%d lignes)\n",nbrLigne);
 
     // création de la grille
     int **grille = (int**) malloc(taille*sizeof(int*));
@@ -155,17 +194,18 @@ void creer_grille(int taille){
             }
         }
     }
-    printf("Voici la grille :\n");
-    afficherGrillePtr(grille,taille,taille);
+    if (!silence) {
+        printf("Voici la grille :\n");
+        afficherGrille(grille,taille,taille);}
     //melanger grille
     melangerTab(grille,taille);
-    printf("Et voici la grille finale:\n");
-    afficherGrillePtr(grille,taille,taille);
+    if (!silence){
+        printf("Et voici la grille finale:\n");
+        afficherGrille(grille,taille,taille);}
+    return (int **) grille;
 }
 
-void P3(int taille){
-//    int taille;
-    printf("choisir taille 4 ou 8 :\n");
-    scanf("%d",&taille);
-    creer_grille(taille);
+void P3(int choix,int silence){
+    int taille=4*choix;
+    creer_grille(taille,silence);
 }
