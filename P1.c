@@ -28,12 +28,12 @@ void entrerEssai(int **TabMask, int *tab){
 int CoupValide(int ligne,int col,int essai,  int **Tab, int **TabMask,int taille) {
     // retourne 1 si le coup est correct, -1 si valide mais incorrect, et si faux 0
     if (Tab[ligne][col] == essai){
-        printf(" Validation : essai = %d, %d",essai,Tab[ligne][col]);
+//        printf(" Validation : essai = %d, %d",essai,Tab[ligne][col]);
         return 1;}
     else {
-        printf(" Deliberation  : essai = %d == %d,;  smlin=%d, smCol=%d, sinilin=%d, sinicol=%d\n", essai,
-               Tab[ligne][col],sommeLigne(Tab, TabMask, ligne, taille), sommeColonne(Tab, TabMask, col, taille),
-               nombreSignificatifLigne(TabMask, ligne, taille), nombreSignificatifColonne(TabMask, col, taille));
+//        printf(" Deliberation  : essai = %d == %d,;  smlin=%d, smCol=%d, sinilin=%d, sinicol=%d\n", essai,
+//               Tab[ligne][col],sommeLigne(Tab, TabMask, ligne, taille), sommeColonne(Tab, TabMask, col, taille),
+//               nombreSignificatifLigne(TabMask, ligne, taille), nombreSignificatifColonne(TabMask, col, taille));
         // algo de décision
         //pour les lignes
         if ((sommeLigne(Tab, TabMask, ligne, taille) == taille / 2) &&

@@ -11,7 +11,7 @@ int main() {
     int chx;
     printf("\n###--------------------------------------------------------------------####\n\nBienvenue dans le jeu du TAKUZU!\n\n");
     printf("Pour commnencer, choisissez une action :\n");
-    printf("\t1 - Jouer au jeu soi meme \n\t2 - Voir une grille se solutionner automatiquement \n\t3 - Voir la creation d'une grille automatiquement \n : ");
+    printf("\t1 - Jouer au jeu soi meme \n\t2 - Donner une grille a l'ordinateur \n\t3 - Voir la creation d'une grille automatiquement \n : ");
     scanf(" %d", &chc);
     do{
         printf("Quelle taille?\n");

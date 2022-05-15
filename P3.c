@@ -147,14 +147,12 @@ void melangerTab(int** grille, int taille){
 }
 
 int** creer_grille(int taille,int silence){
-    int** tab_valide=(int**) malloc(taille*taille/2*sizeof(int*)); // pas opti
+    int** tab_valide=(int**) malloc(taille*taille/2*sizeof(int*));
     int nbrLigne=0;
     for (int i = 0; i < puissance(2,taille); ++i) {
         //nouveau pointeur
         int* temp=(int* )malloc(sizeof(int)*taille);
         transforme_binaire(temp, i, taille);
-//        afficherLignePtr(temp,taille);
-//        printf("celui la (%d): somme = %d ; voisins =%d\n",i,sommeTab(temp, taille) == taille/2 , verifierVoisinsLigne(temp,taille));
         if ( (sommeTab(temp, taille) == taille/2 ) && (verifierVoisinsLigne(temp, taille) == 1) ) {
             tab_valide[nbrLigne] = temp;
             ++nbrLigne;
@@ -162,13 +160,11 @@ int** creer_grille(int taille,int silence){
     }
     afficherGrille(tab_valide, nbrLigne, taille);
     printf("Voici ci-dessus la liste des combinaisons valides (%d lignes)\n",nbrLigne);
-
     // création de la grille
     int **grille = (int**) malloc(taille*sizeof(int*));
     // ajout de l'aléa
     int choix_hasard=random(nbrLigne);
-
-    printf("Maintenant, la generation:\n");
+    if (!silence) printf("Maintenant, la generation:\n");
     // choix des lignes génératrices
     for (int i = 0; i < taille; ++i) {
         // sur les lignes paires, on met de nouvelle lignes si elle ne sont pas déja sur l'echequier
@@ -197,7 +193,7 @@ int** creer_grille(int taille,int silence){
     if (!silence) {
         printf("Voici la grille :\n");
         afficherGrille(grille,taille,taille);}
-    //melanger grille
+    //melanger grille pour plus d'aléa
     melangerTab(grille,taille);
     if (!silence){
         printf("Et voici la grille finale:\n");
